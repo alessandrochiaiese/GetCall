@@ -4,10 +4,10 @@
 from django.urls import reverse
 from accounts.models.user import User
 from getref import settings
-from getpaid.abstracts import AbstractOrder
+#from getpaid.abstracts import AbstractOrder
 from django.db import models
 
-class CustomOrder(AbstractOrder):
+class CustomOrder(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=8)
     description = models.CharField(max_length=128)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -32,15 +32,17 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
  
 #!pip install python-dotenv
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
-load_dotenv()  # take environment variables from .env.
-   
+#load_dotenv()  # take environment variables from .env.
+ 
+from decouple import config
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")#'j4t8b-htj3%e0vi!eazyysx%tch$w3#u=*@c$3njqc9&!j!x9r'
+SECRET_KEY = config("SECRET_KEY")#'j4t8b-htj3%e0vi!eazyysx%tch$w3#u=*@c$3njqc9&!j!x9r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True #
@@ -60,13 +62,13 @@ def allowed_file(filename):
 
 
 # Stripe configuration 
-STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
-STRIPE_CHARGE = os.getenv('STRIPE_CHARGE')
-STRIPE_VERSION = os.getenv('STRIPE_VERSION')
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STRIPE_CHARGE = config('STRIPE_CHARGE')
+STRIPE_VERSION = config('STRIPE_VERSION')
 
 # This is only required when using webhooks
-STRIPE_ENDPOINT_SECRET = os.getenv('STRIPE_ENDPOINT_SECRET')
+STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
 
 
 
@@ -228,20 +230,20 @@ LOGOUT_REDIRECT_URL = '/'
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # social auth configs for github
-SOCIAL_AUTH_GITHUB_KEY = str(os.getenv('GITHUB_KEY'))
-SOCIAL_AUTH_GITHUB_SECRET = str(os.getenv('GITHUB_SECRET'))
+SOCIAL_AUTH_GITHUB_KEY = str(config('GITHUB_KEY', ""))
+SOCIAL_AUTH_GITHUB_SECRET = str(config('GITHUB_SECRET', ""))
 
 # social auth configs for google
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = str(os.getenv('GOOGLE_KEY'))
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = str(os.getenv('GOOGLE_SECRET'))
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = str(config('GOOGLE_KEY', ""))
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = str(config('GOOGLE_SECRET', ""))
 
 # email configs
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = str(os.getenv('EMAIL_USER'))
-EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))
+EMAIL_HOST_USER = str(config('EMAIL_USER', ""))
+EMAIL_HOST_PASSWORD = str(config('EMAIL_PASSWORD', ""))
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
