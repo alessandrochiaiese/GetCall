@@ -1,0 +1,58 @@
+{% extends "referral/base.html" %}
+
+{% block title %}Referral Program Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Referral Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="referralProgramDetail">
+            <!-- Referral Programdetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'referral/modals/modal_create_update_referral_program.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getReferralIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchReferralProgramDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/referral/programs/${id}/`);
+                const referral = await response.json();
+                const detailList = document.getElementById('referralProgramDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${referral.id}</li>
+                    <li class="list-group-item"><strong>Description:</strong> ${referral.description}</li>
+                    <li class="list-group-item"><strong>Commission Rate:</strong> ${referral.commission_rate}</li>
+                    <li class="list-group-item"><strong>Min Payout Threshold:</strong> ${referral.min_payout_threshold}</li>
+                    <li class="list-group-item"><strong>Max Payout Limit:</strong> ${referral.max_payout_limit}</li>
+                    <li class="list-group-item"><strong>Sate Created:</strong> ${referral.date_created}</li>
+                    <li class="list-group-item"><strong>Is Active:</strong> ${referral.is_active}</li>
+                    <li class="list-group-item"><strong>Duration:</strong> ${referral.duration}</li>
+                    <li class="list-group-item"><strong>Allowed Countries:</strong> ${referral.allowed_countries}</li>
+                    <li class="list-group-item"><strong>Target Industry:</strong> ${referral.target_industry}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching referral program detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchReferralProgramDetail();
+    </script>
+{% endblock %}

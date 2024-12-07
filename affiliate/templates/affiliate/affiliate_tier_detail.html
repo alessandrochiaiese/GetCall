@@ -1,0 +1,55 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Tier Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Affiliate Tier Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="affiliateTierDetail">
+            <!-- Affiliate Tierdetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'affiliate/modals/modal_create_update_affiliate_tier.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getAffiliateIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchAffiliateTierDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/affiliate/tiers/${id}/`);
+                const affiliate = await response.json();
+                const detailList = document.getElementById('affiliateTierDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${affiliate.id}</li>
+                    <li class="list-group-item"><strong>Tier Name:</strong> ${affiliate.tier_name}</li>
+                    <li class="list-group-item"><strong>Min Sales:</strong> ${affiliate.min_sales}</li>
+                    <li class="list-group-item"><strong>Commission Rate:</strong> ${affiliate.commission_rate}</li>
+                    <li class="list-group-item"><strong>Tier Benefits:</strong> ${affiliate.tier_benefits}</li>
+                    <li class="list-group-item"><strong>Next Tier Threshold:</strong> ${affiliate.next_tier_threshold}</li>
+                    <li class="list-group-item"><strong>Tier Expiration:</strong> ${affiliate.tier_expiration}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching affiliate tier detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchAffiliateTierDetail();
+    </script>
+{% endblock %}

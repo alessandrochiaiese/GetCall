@@ -1,0 +1,56 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Campaign Detail{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Affiliate Campaign Detail</h1>
+
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="affiliateCampaignDetail">
+        <!-- Affiliate Campaigndetails will be displayed here -->
+    </ul>
+</div>
+
+{% include 'affiliate/modals/modal_create_update_affiliate_campaign.html' %}
+
+<script>
+    // Funzione per estrarre l'ID dall'URL
+    function getAffiliateIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+    async function fetchAffiliateCampaignDetail() {
+        const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+        try {
+            const response = await fetch(`http://${window.location.host}/api/v0/affiliate/campaigns/${id}/`);
+            const affiliate = await response.json();
+            const detailList = document.getElementById('affiliateCampaignDetail');
+            const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${affiliate.id}</li>
+                    <li class="list-group-item"><strong>Name:</strong> ${affiliate.campaign_name}</li>
+                    <li class="list-group-item"><strong>Start Date:</strong> ${affiliate.start_date}</li>
+                    <li class="list-group-item"><strong>End Date:</strong> ${affiliate.end_date}</li>
+                    <li class="list-group-item"><strong>Goal:</strong> ${affiliate.goal}</li>
+                    <li class="list-group-item"><strong>Budget:</strong> ${affiliate.budget}</li>
+                    <li class="list-group-item"><strong>Spending To Date:</strong> ${affiliate.spending_to_date}</li>`;
+
+            detailList.innerHTML = details;
+        } catch (error) {
+            console.error('Error fetching affiliate campaign detail:', error);
+        }
+    }
+
+    // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+    fetchAffiliateCampaignDetail();
+</script>
+{% endblock %}

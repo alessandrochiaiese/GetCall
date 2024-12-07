@@ -1,0 +1,115 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Referral Program</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createDescription" class="form-label">Description</label>
+                        <input type="text" class="form-control" data-field="description" id="createDescription" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createConversionRate" class="form-label">Conversion Rate</label>
+                        <input type="text" class="form-control" data-field="conversion_rate" id="createConversionRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createCurrency" class="form-label">Currency</label>
+                        <input type="date" class="form-control" data-field="currency" id="createCurrency" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createMinPayoutThreshold" class="form-label">Min Payout Threshold</label>
+                        <input type="text" class="form-control" data-field="min_payout_threshold" id="createMinPayoutThreshold" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createMinPayoutLimit" class="form-label">Min Payout Limit</label>
+                        <input type="date" class="form-control" data-field="min_payout_limit" id="createMinPayoutLimit" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createDateCreated" class="form-label">Date Created</label>
+                        <input type="text" class="form-control" data-field="date_created" id="createDateCreated" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createIsActive" class="form-label">Is Active</label>
+                        <input type="text" class="form-control" data-field="is_active" id="createIsActive" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createAllowedCountries" class="form-label">Allowed Countries</label>
+                        <input type="text" class="form-control" data-field="allowed_countries" id="createAllowedCountries" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createTargetIndustry" class="form-label">Target Industry</label>
+                        <input type="text" class="form-control" data-field="target_industry" id="createTargetIndustry" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Referral Program</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editDescription" class="form-label">Description</label>
+                        <input type="text" class="form-control" data-field="description" id="editDescription" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editConversionRate" class="form-label">Conversion Rate</label>
+                        <input type="text" class="form-control" data-field="conversion_rate" id="editConversionRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCurrency" class="form-label">Currency</label>
+                        <input type="date" class="form-control" data-field="currency" id="editCurrency" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editMinPayoutThreshold" class="form-label">Min Payout Threshold</label>
+                        <input type="text" class="form-control" data-field="min_payout_threshold" id="editMinPayoutThreshold" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editMinPayoutLimit" class="form-label">Min Payout Limit</label>
+                        <input type="date" class="form-control" data-field="min_payout_limit" id="editMinPayoutLimit" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDateCreated" class="form-label">Date Created</label>
+                        <input type="text" class="form-control" data-field="date_created" id="editDateCreated" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editIsActive" class="form-label">Is Active</label>
+                        <input type="text" class="form-control" data-field="is_active" id="editIsActive" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAllowedCountries" class="form-label">Allowed Countries</label>
+                        <input type="text" class="form-control" data-field="allowed_countries" id="editAllowedCountries" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTargetIndustry" class="form-label">Target Industry</label>
+                        <input type="text" class="form-control" data-field="target_industry" id="editTargetIndustry" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,333 @@
+{% extends "dashboard/layout.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Referral Program{% endblock %}
+
+{% block styles %}
+<!-- CSS Plugin e Custom -->
+<link rel="stylesheet" href="{% static 'dashboard/vendors/feather/feather.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/ti-icons/css/themify-icons.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/css/vendor.bundle.base.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/vertical-layout-light/style.css' %}">
+<link rel="shortcut icon" href="{% static 'dashboard/images/favicon.png' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Box Programmi di Affiliazione -->
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">I tuoi Programmi di Affiliazione</h4>
+                <div id="programs-list">
+                    <!-- Qui saranno mostrati i programmi di affiliazione -->
+                </div>
+
+                <!-- Modulo per Creare un Nuovo Programma -->
+                <button class="btn btn-primary mt-3" id="create-program-btn" data-toggle="modal"
+                    data-target="#createProgramModal">Crea Nuovo Programma</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Box Campagne Attive -->
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Campagne Attive</h4>
+                <div id="campaigns-list">
+                    <!-- Qui saranno mostrate le campagne -->
+                </div>
+
+                <!-- Modulo per Creare una Nuova Campagna -->
+                <button class="btn btn-primary mt-3" id="create-campaign-btn" data-toggle="modal"
+                    data-target="#createCampaignModal">Lancia Nuova Campagna</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Box Code Referral -->
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Il Tuo Code Referral</h4>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="referral-code" value="{{ user.profile.referral_code }}"
+                        readonly>
+                    <button class="btn btn-success mt-3" id="copy-code">Copia Codice</button>
+                </div>
+                <a href="/track/{{ user.profile.referral_code }}" id="referral-code-url" class="btn btn-primary mt-3"
+                    target="_blank">
+                    Condividi e Usa
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Box Attività Recenti -->
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Attività Recenti</h4>
+                <div id="recent-activities">
+                    <!-- Qui saranno mostrate le attività recenti -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modale per Creare un Programma -->
+<div class="modal fade" id="createProgramModal" tabindex="-1" role="dialog" aria-labelledby="createProgramModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createProgramModalLabel">Crea Programma di Affiliazione</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createProgramForm">
+                    <div class="form-group">
+                        <label for="program-name">Nome Programma</label>
+                        <input type="text" class="form-control" id="program-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="program-description">Descrizione</label>
+                        <textarea class="form-control" id="program-description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="program-reward">Tipo di Ricompensa</label>
+                        <select class="form-control" id="program-reward" required>
+                            <option value="discount">Sconto</option>
+                            <option value="cashback">Cashback</option>
+                            <option value="points">Punti</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="program-reward-value">Valore Ricompensa</label>
+                        <input type="number" class="form-control" id="program-reward-value" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="program-min-referrals">Numero Minimo di Referral</label>
+                        <input type="number" class="form-control" id="program-min-referrals" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="program-duration">Durata Programma (giorni)</label>
+                        <input type="number" class="form-control" id="program-duration" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Crea Programma</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modale per Creare una Campagna -->
+<div class="modal fade" id="createCampaignModal" tabindex="-1" role="dialog" aria-labelledby="createCampaignModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCampaignModalLabel">Lancia Campagna</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createCampaignForm">
+                    <div class="form-group">
+                        <label for="campaign-name">Nome Campagna</label>
+                        <input type="text" class="form-control" id="campaign-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="campaign-start-date">Data Inizio</label>
+                        <input type="date" class="form-control" id="campaign-start-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="campaign-end-date">Data Fine</label>
+                        <input type="date" class="form-control" id="campaign-end-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="campaign-budget">Budget</label>
+                        <input type="number" class="form-control" id="campaign-budget" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="campaign-goal">Obiettivo</label>
+                        <textarea class="form-control" id="campaign-goal" rows="2" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="campaign-program">Seleziona Programma di Affiliazione</label>
+                        <select class="form-control" id="campaign-program" required>
+                            <!-- I programmi di affiliazione saranno caricati dinamicamente -->
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">Lancia Campagna</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dashboard/vendors/js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'dashboard/vendors/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'dashboard/js/off-canvas.js' %}"></script>
+<script src="{% static 'dashboard/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'dashboard/js/template.js' %}"></script>
+<script src="{% static 'dashboard/js/settings.js' %}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Carica i dati tramite fetch
+        /*
+        loadReferralData();
+        async function loadReferralData() {
+            try {
+                const response = await fetch('/api/v0/referral/stats/');
+
+                // Controllo se la risposta è valida
+                if (!response.ok) {
+                    throw new Error('Errore nel caricamento dei dati');
+                }
+
+                const data = await response.json();
+
+                // Verifica se i dati sono strutturati correttamente
+                if (data && Array.isArray(data.referral_codes)) {
+                    let programsHtml = '';
+                    data.referral_codes.forEach(function (code) {
+                        programsHtml += `
+                    <div class="program">
+                        <h5>Codice Referral: ${code.code}</h5>
+                        <p>Utilizzazioni: ${code.usage_count}</p>
+                    </div>
+                `;
+                    });
+                    document.getElementById('programs-list').innerHTML = programsHtml;
+                } else {
+                    console.warn('I codici referral non sono disponibili o sono mal formattati.');
+                }
+
+                if (data && Array.isArray(data.referral_campaigns)) {
+                    let campaignsHtml = '';
+                    data.referral_campaigns.forEach(function (campaign) {
+                        campaignsHtml += `
+                    <div class="campaign">
+                        <h5>Campagna: ${campaign.name}</h5>
+                        <p>Inizio: ${campaign.start_date} - Fine: ${campaign.end_date}</p>
+                        <button class="btn btn-primary participate-btn" data-campaign-id="${campaign.id}">Partecipa</button>
+                    </div>
+                `;
+                    });
+                    document.getElementById('campaigns-list').innerHTML = campaignsHtml;
+                } else {
+                    console.warn('Le campagne non sono disponibili o sono mal formattate.');
+                }
+
+                if (data && Array.isArray(data.recent_activities)) {
+                    let activitiesHtml = '';
+                    data.recent_activities.forEach(function (activity) {
+                        activitiesHtml += `
+                    <div class="activity">
+                        <p><strong>${activity.date}</strong> - ${activity.type}: ${activity.details} (€${activity.amount})</p>
+                    </div>
+                `;
+                    });
+                    document.getElementById('recent-activities').innerHTML = activitiesHtml;
+                } else {
+                    console.warn('Le attività recenti non sono disponibili o sono mal formattate.');
+                }
+
+            } catch (error) {
+                console.error('Errore nel caricamento dei dati di referral:', error);
+            }
+        }
+        */
+
+        // Carica i dati del profilo
+        loadReferralData();
+
+        // Funzione per caricare i dati tramite chiamate API
+        function loadReferralData() {
+            let referral_code = document.getElementById('referral-code');
+            let referral_code_url = document.getElementById('referral-code-url');
+            console.debug(referral_code);
+            $.get('/profile/data/', function (data) {
+                // Visualizza il codice referral direttamente dal JSON ricevuto
+                console.debug(data.referral_code);
+                referral_code.value = data.referral_code;
+                referral_code_url.setAttribute('href', 'http://127.0.0.1:8000/referral-code/' + data.referral_code + '/');
+            });
+        }
+
+        // Gestione creazione programma
+        document.getElementById('createProgramForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('program-name').value;
+            
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/v0/referral/programs/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(programData),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();  // Ottieni i dettagli dell'errore dal server
+                    console.error('Errore durante la creazione del programma:', errorData);
+                } else {
+                    const result = await response.json();
+                    console.log('Programma creato con successo:', result);
+                }
+
+            } catch (error) {
+                console.error('Errore nella creazione del programma:', error);
+                alert('Errore durante la creazione del programma.');
+            }
+        });
+
+        // Gestione creazione campagna
+        document.getElementById('createCampaignForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('campaign-name').value;
+            const startDate = document.getElementById('campaign-start-date').value;
+            const endDate = document.getElementById('campaign-end-date').value;
+            const programId = document.getElementById('campaign-program').value;
+
+            try {
+                const response = await fetch('/api/v0/referral/campaigns/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, start_date: startDate, end_date: endDate, program_id: programId })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert('Campagna creata con successo!');
+                    $('#createCampaignModal').modal('hide');
+                    loadReferralData(); // Ricarica i dati per visualizzare la nuova campagna
+                } else {
+                    alert('Errore nella creazione della campagna.');
+                }
+            } catch (error) {
+                console.error('Errore nella creazione della campagna:', error);
+                alert('Errore durante la creazione della campagna.');
+            }
+        });
+    });
+</script>
+{% endblock %}

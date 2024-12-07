@@ -1,0 +1,47 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Program Performance Detail{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Program Partecipation Affiliate Detail</h1>
+
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="affiliateProgramPartecipationDetail">
+        <!-- Affiliate ProgramPartecipationdetails will be displayed here -->
+    </ul>
+</div>
+
+    {% include 'affiliate/modals/modal_create_update_affiliate_program_partecipation.html' %}
+
+<script>
+    let allAffiliates = []; // Store all affiliate data
+    async function fetchAffiliateProgramPartecipationDetail(id) {
+        try {
+            const response = await fetch(`http://${window.location.host}/api/v0/affiliate/programs/${id}/partecipations/${id}/`);
+            const affiliate = await response.json();
+            const detailList = document.getElementById('affiliateProgramPartecipationDetail');
+            const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${affiliate.id}</li>
+                    <li class="list-group-item"><strong>Date Joined:</strong> ${affiliate.date_joined}</li>
+                    <li class="list-group-item"><strong>Commission Earned:</strong> ${affiliate.commission_earned}</li> 
+                    <li class="list-group-item"><strong>Status:</strong> ${affiliate.status}</li> `;
+            detailList.innerHTML = details;
+        } catch (error) {
+            console.error('Error fetching affiliate programs/partecipation detail:', error);
+        }
+    }
+
+    // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+    fetchAffiliateProgramPartecipationDetail();
+</script>
+{% endblock %}

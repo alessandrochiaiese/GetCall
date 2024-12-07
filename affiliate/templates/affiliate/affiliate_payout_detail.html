@@ -1,0 +1,58 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Payout Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Payout Affiliate Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="affiliatePayoutDetail">
+            <!-- Affiliate Payoutdetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'affiliate/modals/modal_create_update_affiliate_payout.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getAffiliateIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchAffiliatePayoutDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/affiliate/payouts/${id}/`);
+                const affiliate = await response.json();
+                const detailList = document.getElementById('affiliatePayoutDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${affiliate.id}</li>
+                    <li class="list-group-item"><strong>Amount:</strong> ${affiliate.amount}</li>
+                    <li class="list-group-item"><strong>Currency:</strong> ${affiliate.currency}</li>
+                    <li class="list-group-item"><strong>Payout Date:</strong> ${affiliate.payout_date}</li>
+                    <li class="list-group-item"><strong>Payout Method:</strong> ${affiliate.payout_method}</li>
+                    <li class="list-group-item"><strong>Payout Status:</strong> ${affiliate.payout_status}</li>
+                    <li class="list-group-item"><strong>Transaction Id:</strong> ${affiliate.transaction_id}</li>
+                    <li class="list-group-item"><strong>Processing Fee:</strong> ${affiliate.processing_fee}</li>
+                    <li class="list-group-item"><strong>Net Amount:</strong> ${affiliate.net_amount}</li>
+                    <li class="list-group-item"><strong>Payout Provider:</strong> ${affiliate.payout_provider}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching affiliate payout detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchAffiliatePayoutDetail();
+    </script>
+{% endblock %}

@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">GetREF</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <!-- unauthorized users-->
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+
+                <!-- authorized users -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Affiliate
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'affiliate_audit_list' %}">Audit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_campaign_list' %}">Campaign</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_commission_list' %}">Commission</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_incentive_list' %}">Incentive</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_link_list' %}">Link</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_notification_list' %}">Notification</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_payout_list' %}">Payout</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_performance_list' %}">Performance</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_program_list' %}">Program</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_reward_list' %}">Reward</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_setting_list' %}">Setting</a></li>
+                        <li><a class="dropdown-item" href="{% url 'affiliate_support_ticket_list' %}">Support Ticket</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Referral
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'referral_audit_list' %}">Audit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_bonus_list' %}">Bonus</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_campaign_list' %}">Campaign</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_code_list' %}">Commission</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_conversion_list' %}">Incentive</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_engagement_list' %}">Engagement</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_notification_list' %}">Notification</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_program_list' %}">Program</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_reward_list' %}">Reward</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_setting_list' %}">Setting</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_stat_list' %}">Stat</a></li>
+                        <li><a class="dropdown-item" href="{% url 'referral_transaction_list' %}">Support Ticket</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

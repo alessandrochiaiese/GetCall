@@ -1,0 +1,111 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Affiliate Payout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createAmount" class="form-label">Amount</label>
+                        <input type="text" class="form-control" data-field="amount" id="amount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createCurrency" class="form-label">Currency</label>
+                        <input type="date" class="form-control" data-field="currency" id="createCurrency" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createPayoutDate" class="form-label">Payout Date</label>
+                        <input type="date" class="form-control" data-field="payout_date" id="createPayoutDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createPayoutMethod" class="form-label">Payout Method</label>
+                        <input type="text" class="form-control" data-field="payout_method" id="createPayoutMethod" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createPayoutStatus" class="form-label">Payout Status</label>
+                        <input type="text" class="form-control" data-field="payout_status" id="createPayoutStatus" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createIpAddress" class="form-label">IP Address</label>
+                        <input type="text" class="form-control" data-field="" id="createIpAddress" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createTransactionId" class="form-label">Transaction Id</label>
+                        <input type="text" class="form-control" data-field="transaction_id" id="createTransactionId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createProcessingFee" class="form-label">ProcessingFee</label>
+                        <input type="text" class="form-control" data-field="processing_fee" id="createProcessingFee" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Affiliate Payout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editAmount" class="form-label">Amount</label>
+                        <input type="text" class="form-control" data-field="amount" id="editAmount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCurrency" class="form-label">Currency</label>
+                        <input type="date" class="form-control" data-field="currency" id="editCurrency" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPayoutDate" class="form-label">Payout Date</label>
+                        <input type="date" class="form-control" data-field="payout_date" id="editPayoutDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPayoutMethod" class="form-label">Payout Method</label>
+                        <input type="text" class="form-control" data-field="payout_method" id="editPayoutMethod" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPayoutStatus" class="form-label">Payout Status</label>
+                        <input type="text" class="form-control" data-field="payout_status" id="editPayoutStatus" required>
+                    </div> 
+                    <div class="mb-3">
+                        <label for="editTransactionId" class="form-label">Transaction Id</label>
+                        <input type="text" class="form-control" data-field="transaction_id" id="editTransactionId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editProcessingFee" class="form-label">Processing Fee</label>
+                        <input type="text" class="form-control" data-field="processing_fee" id="editProcessingFee" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editNetAmount" class="form-label">Net Amount</label>
+                        <input type="text" class="form-control" data-field="net_amount" id="editNetAmount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPayoutProvider" class="form-label">Payout Provider</label>
+                        <input type="text" class="form-control" data-field="payout_provider" id="editPayoutProvider" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

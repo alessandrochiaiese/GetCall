@@ -1,0 +1,71 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Audit Detail{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Affiliate Dashboard</h1>
+
+    <!-- Sezione delle statistiche -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">Total Earnings</div>
+                <div class="card-body">
+                    <h2 class="text-success">$1,200</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">Clicks</div>
+                <div class="card-body">
+                    <h2>3,240</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">Conversions</div>
+                <div class="card-body">
+                    <h2>120</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabella delle ultime transazioni -->
+    <h2>Recent Transactions</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>123456</td>
+                <td>2023-11-01</td>
+                <td>$50.00</td>
+                <td><span class="status-approved">Approved</span></td>
+            </tr>
+            <tr>
+                <td>123457</td>
+                <td>2023-10-25</td>
+                <td>$30.00</td>
+                <td><span class="status-pending">Pending</span></td>
+            </tr>
+            <tr>
+                <td>123458</td>
+                <td>2023-10-20</td>
+                <td>$20.00</td>
+                <td><span class="status-declined">Declined</span></td>
+            </tr>
+        </tbody>
+    </table> 
+</div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+
+{% extends 'referral/base.html' %}
+
+{% block title %}Edit Audit{% endblock %}
+
+{% block content %}
+    <h2>Edit Audit</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Audit</button>
+    </form>
+    <br>
+    <a href="{% url 'referral_audit_list' %}">Back to Audit List</a>
+{% endblock %}

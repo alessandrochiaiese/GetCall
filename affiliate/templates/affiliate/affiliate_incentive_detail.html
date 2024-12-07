@@ -1,0 +1,57 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Incentive Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Affiliate Incentive Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="affiliateIncentiveDetail">
+            <!-- Affiliate Incentivedetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'affiliate/modals/modal_create_update_affiliate_incentive.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getAffiliateIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchAffiliateIncentiveDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/affiliate/incentives/${id}/`);
+                const affiliate = await response.json();
+                const detailList = document.getElementById('affiliateIncentiveDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${affiliate.id}</li>
+                    <li class="list-group-item"><strong>URL:</strong> ${affiliate.url}</li>
+                    <li class="list-group-item"><strong>Click Count:</strong> ${affiliate.click_count}</li>
+                    <li class="list-group-item"><strong>Conversion Count:</strong> ${affiliate.conversion_count}</li>
+                    <li class="list-group-item"><strong>Date Created:</strong> ${affiliate.date_created}</li>
+                    <li class="list-group-item"><strong>Last Used:</strong> ${affiliate.last_used}</li>
+                    <li class="list-group-item"><strong>Incentive Status:</strong> ${affiliate.incentive_status}</li>
+                    <li class="list-group-item"><strong>Landing Page:</strong> ${affiliate.landing_page}</li>
+                    <li class="list-group-item"><strong>Custom Tracking ID:</strong> ${affiliate.custom_tracking_id}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching affiliate incentive detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchAffiliateIncentiveDetail();
+    </script>
+{% endblock %}

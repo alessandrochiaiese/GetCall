@@ -1,0 +1,45 @@
+  
+<!-- Sidebar -->
+<div class="sidebar">
+    <ul class="nav flex-column treeview">
+        <!-- Affiliate Tree -->
+        <li class="nav-item list-group-item">
+            <a class="nav-link toggle" href="{#% url 'affiliates' %#}" data-bs-toggle="collapse">Affiliate</a> 
+            <ul class="collapse" id="affiliateMenu"> 
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_audit_list' %}">Audit</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_campaign_list' %}">Campaign</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_commission_list' %}">Commission</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_incentive_list' %}">Incentive</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_link_list' %}">Link</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_notification_list' %}">Notification</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_payout_list' %}">Payout</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_performance_list' %}">Performance</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{#% url 'affiliate_program_partecipation_list' %#}">Program Partecipation</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_program_list' %}">Program</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_reward_list' %}">Reward</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_setting_list' %}">Setting</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'affiliate_support_ticket_list' %}">Support Ticket</a></li>
+            </ul>
+        </li>
+
+        <!-- Referral Tree -->
+        <li class="nav-item list-group-item">
+            <a class="nav-link toggle" href="{#% url 'referrals' %#}" data-bs-toggle="collapse">Referral</a> 
+            <ul class="collapse" id="referralMenu"> 
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_audit_list' %}">Audit</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_bonus_list' %}">Bonus</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_campaign_list' %}">Campaign</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_code_list' %}">Code</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_conversion_list' %}">Conversion</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_engagement_list' %}">Engagement</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_notification_list' %}">Notification</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{#% url 'referral_program_partecipation_list' %#}">Program Partecipation</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_program_list' %}">Program</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_reward_list' %}">Reward</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_setting_list' %}">Setting</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_stat_list' %}">Stat</a></li>
+                <li class="nav-item list-group-item"><a class="nav-link collapse-item" href="{% url 'referral_transaction_list' %}">Transaction</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>

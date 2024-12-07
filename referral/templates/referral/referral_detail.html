@@ -1,0 +1,43 @@
+{% extends "referral/base.html" %}
+
+{% block title %}Referral Audit Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Referral Detail</h1>
+        <ul class="list-group" id="referralDetail">
+            <!-- Referral details will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'referral/modals/modal_create_update_referral_audit.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getReferralIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchReferralDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/referral/referrals/${id}/`);
+                const referral = await response.json();
+                const detailList = document.getElementById('referralDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${referral.id}</li>
+                    <li class="list-group-item"><strong>Name:</strong> ${referral.name}</li>
+                    <li class="list-group-item"><strong>Email:</strong> ${referral.email}</li>
+                    <li class="list-group-item"><strong>Country:</strong> ${referral.country}</li>
+                    <li class="list-group-item"><strong>Status:</strong> ${referral.status}</li>
+                    <li class="list-group-item"><strong>Total Earnings:</strong> ${referral.total_earnings}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching referral detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchReferralDetail();
+    </script>
+{% endblock %}

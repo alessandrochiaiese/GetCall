@@ -1,0 +1,54 @@
+{% extends "referral/base.html" %}
+
+{% block title %}Referral Audit Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Referral Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="referralAuditDetail">
+            <!-- Referral Auditdetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'referral/modals/modal_create_update_referral_audit.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getReferralIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchReferralAuditDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/referral/audits/${id}/`);
+                const referral = await response.json();
+                const detailList = document.getElementById('referralAuditDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${referral.id}</li>
+                    <li class="list-group-item"><strong>Action Taken:</strong> ${referral.action_taken}</li>
+                    <li class="list-group-item"><strong>Action Date:</strong> ${referral.action_date}</li>
+                    <li class="list-group-item"><strong>IP Address:</strong> ${referral.ip_address}</li>
+                    <li class="list-group-item"><strong>Device Info:</strong> ${referral.device_info}</li>
+                    <li class="list-group-item"><strong>Location:</strong> ${referral.location}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching referral audit detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchReferralAuditDetail();
+    </script>
+{% endblock %}

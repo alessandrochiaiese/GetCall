@@ -1,0 +1,14 @@
+{% extends 'affiliate/base.html' %}
+
+{% block title %}Add New Audit{% endblock %}
+
+{% block content %}
+    <h2>Add New Audit</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Audit</button>
+    </form>
+    <br>
+    <a href="{% url 'affiliate_audit_list' %}">Back to Audit List</a>
+{% endblock %}

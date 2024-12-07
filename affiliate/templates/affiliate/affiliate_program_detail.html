@@ -1,0 +1,58 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Program Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Affiliate Program Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="affiliateProgramDetail">
+            <!-- Affiliate Programdetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'affiliate/modals/modal_create_update_affiliate_program.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getAffiliateIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchAffiliateProgramDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/affiliate/programs/${id}/`);
+                const affiliate = await response.json();
+                const detailList = document.getElementById('affiliateProgramDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${affiliate.id}</li>
+                    <li class="list-group-item"><strong>Description:</strong> ${affiliate.description}</li>
+                    <li class="list-group-item"><strong>Commission Rate:</strong> ${affiliate.commission_rate}</li>
+                    <li class="list-group-item"><strong>Min Payout Threshold:</strong> ${affiliate.min_payout_threshold}</li>
+                    <li class="list-group-item"><strong>Max Payout Limit:</strong> ${affiliate.max_payout_limit}</li>
+                    <li class="list-group-item"><strong>Sate Created:</strong> ${affiliate.date_created}</li>
+                    <li class="list-group-item"><strong>Is Active:</strong> ${affiliate.is_active}</li>
+                    <li class="list-group-item"><strong>Duration:</strong> ${affiliate.duration}</li>
+                    <li class="list-group-item"><strong>Allowed Countries:</strong> ${affiliate.allowed_countries}</li>
+                    <li class="list-group-item"><strong>Target Industry:</strong> ${affiliate.target_industry}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching affiliate program detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchAffiliateProgramDetail();
+    </script>
+{% endblock %}

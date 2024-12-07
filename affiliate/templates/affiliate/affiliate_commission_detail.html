@@ -1,0 +1,57 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Commission Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Affiliate Commission Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="affiliateCommissionDetail">
+            <!-- Affiliate Commissiondetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'affiliate/modals/modal_create_update_affiliate_commission.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getAffiliateIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchAffiliateCommissionDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/affiliate/commissions/${id}/`);
+                const affiliate = await response.json();
+                const detailList = document.getElementById('affiliateCommissionDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${affiliate.id}</li>
+                    <li class="list-group-item"><strong>Amount:</strong> ${affiliate.amount}</li>
+                    <li class="list-group-item"><strong>Currency:</strong> ${affiliate.currency}</li>
+                    <li class="list-group-item"><strong>Date Awarded:</strong> ${affiliate.date_awarded}</li>
+                    <li class="list-group-item"><strong>Status:</strong> ${affiliate.status}</li>
+                    <li class="list-group-item"><strong>Approved By:</strong> ${affiliate.approved_by}</li>
+                    <li class="list-group-item"><strong>Commission Type:</strong> ${affiliate.commission_type}</li>
+                    <li class="list-group-item"><strong>Description:</strong> ${affiliate.description}</li>
+                    <li class="list-group-item"><strong>Tier:</strong> ${affiliate.tier}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching affiliate commission detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchAffiliateCommissionDetail();
+    </script>
+{% endblock %}

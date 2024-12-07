@@ -1,0 +1,55 @@
+{% extends "referral/base.html" %}
+
+{% block title %}Referral Commission Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Referral Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="referralCommissionDetail">
+            <!-- Referral Commissiondetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'referral/modals/modal_create_update_referral_conversion.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getReferralIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchReferralCommissionDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/referral/commissions/${id}/`);
+                const referral = await response.json();
+                const detailList = document.getElementById('referralCommissionDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${referral.id}</li>
+                    <li class="list-group-item"><strong>Name:</strong> ${referral.commission_name}</li>
+                    <li class="list-group-item"><strong>Start Date:</strong> ${referral.start_date}</li>
+                    <li class="list-group-item"><strong>End Date:</strong> ${referral.end_date}</li>
+                    <li class="list-group-item"><strong>Goal:</strong> ${referral.goal}</li>
+                    <li class="list-group-item"><strong>Budget:</strong> ${referral.budget}</li>
+                    <li class="list-group-item"><strong>Spending To Date:</strong> ${referral.spending_to_date}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching referral commission detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchReferralCommissionDetail();
+    </script>
+{% endblock %}

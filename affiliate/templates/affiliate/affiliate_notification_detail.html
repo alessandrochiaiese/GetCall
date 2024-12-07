@@ -1,0 +1,54 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Notification Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Affiliate Notification Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="affiliateNotificationDetail">
+            <!-- Affiliate Notificationdetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'affiliate/modals/modal_create_update_affiliate_notification.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getAffiliateIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchAffiliateNotificationDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/affiliate/notifications/${id}/`);
+                const affiliate = await response.json();
+                const detailList = document.getElementById('affiliateNotificationDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${affiliate.id}</li>
+                    <li class="list-group-item"><strong>Message:</strong> ${affiliate.message}</li>
+                    <li class="list-group-item"><strong>Date Sent:</strong> ${affiliate.date_sent}</li>
+                    <li class="list-group-item"><strong>Is Read:</strong> ${affiliate.is_read}</li>
+                    <li class="list-group-item"><strong>Priority:</strong> ${affiliate.priority}</li>
+                    <li class="list-group-item"><strong>Notification Type:</strong> ${affiliate.notification_type}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching affiliate notification detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchAffiliateNotificationDetail();
+    </script>
+{% endblock %}

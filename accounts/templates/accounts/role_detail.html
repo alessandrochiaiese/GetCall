@@ -1,0 +1,39 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Audit Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Account Detail</h1>
+        <ul class="list-group" id="accountRoleDetail">
+            <!-- Account Roledetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'affiliate/modals/modal_create_update_affiliate_audit.html' %}
+
+    <script>
+        async function fetchAccountRoleDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/account/roles/${id}/`);
+                const account = await response.json();
+                const detailList = document.getElementById('accountRoleDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${account.id}</li>
+                    <li class="list-group-item"><strong>Name:</strong> ${account.name}</li>
+                    <li class="list-group-item"><strong>Email:</strong> ${account.email}</li>
+                    <li class="list-group-item"><strong>Country:</strong> ${account.country}</li>
+                    <li class="list-group-item"><strong>Status:</strong> ${account.status}</li>
+                    <li class="list-group-item"><strong>Total Earnings:</strong> ${account.total_earnings}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching account role detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchAccountRoleDetail();
+    </script>
+</body>
+</html>

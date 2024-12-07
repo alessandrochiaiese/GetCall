@@ -1,0 +1,233 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}  
+
+{% block title %}Pagina Profilo - {{ user.first_name }}{% endblock %}
+
+{% block styles %}
+<!-- Aggiungere link a librerie CSS -->
+<link rel="stylesheet" href="{% static 'dashboard/vendors/feather/feather.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/ti-icons/css/themify-icons.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/css/vendor.bundle.base.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/vertical-layout-light/style.css' %}">
+<!-- Aggiungere stili personalizzati per la pagina -->
+<style>
+    .profile-header {
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .profile-header img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+    .section-title {
+        font-weight: bold;
+        color: #2d3e50;
+        margin-top: 20px;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+    }
+    .profile-stat {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .profile-stat-value {
+        font-size: 18px;
+        color: #28a745;
+    }
+    .card {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .btn-custom {
+        background-color: #0062cc;
+        color: white;
+        border: none;
+    }
+    .btn-custom:hover {
+        background-color: #0056b3;
+    }
+    .form-control {
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Header Profilo -->
+    <div class="row profile-header">
+        <div class="col-md-12">
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle">
+            <h2>{{ user.first_name|default:"Guest" }} {{ user.last_name|default:"" }}</h2>
+            <p class="text-muted">Benvenuto nel tuo profilo. Gestisci il tuo account e visualizza i tuoi referral.</p>
+        </div>
+    </div>
+
+    <!-- Modifica Dati Personali -->
+    <div class="row mt-5">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="section-title">Modifica Dati Personali</h4>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_first_name">Nome:</label>
+                            {{ user_form.first_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_last_name">Cognome:</label>
+                            {{ user_form.last_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_email">Email:</label>
+                            {{ user_form.email }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_bio">Bio:</label>
+                            {{ profile_form.bio }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_avatar">Cambia Avatar:</label>
+                            {{ profile_form.avatar }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-custom btn-lg">Salva Modifiche</button>
+                            <button type="reset" class="btn btn-secondary btn-lg">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistiche Generali e Performance Referral -->
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="section-title">Statistiche del Profilo</h4>
+                    <p class="profile-stat">Totale Guadagni:</p>
+                    <p id="total-commission" class="profile-stat-value">€0.00</p>
+                    <p class="profile-stat">Referral Attivi:</p>
+                    <p id="active-referrals" class="profile-stat-value">0</p>
+                    <p class="profile-stat">Commissioni Totali:</p>
+                    <p id="total-rewards" class="profile-stat-value">€0.00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dettagli Referral e Programmi -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="section-title">Bonus Referral</h4>
+                    <p id="bonus-amount" class="profile-stat-value">€0.00</p>
+                    <p class="profile-stat">Programmi Bonus:</p>
+                    <p id="bonus-programs-count" class="profile-stat-value">0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="section-title">Codici Referral</h4>
+                    <p id="referral-codes-count" class="profile-stat-value">0</p>
+                    <p class="profile-stat">Codici Attivi:</p>
+                    <p id="active-referral-codes" class="profile-stat-value">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attività Recenti -->
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="section-title">Attività Recenti</h4>
+                    <table class="table table-striped" id="recent-activities">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Tipo</th>
+                                <th>Dettagli</th>
+                                <th>Importo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Attività recenti caricate via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dashboard/vendors/js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'dashboard/js/off-canvas.js' %}"></script>
+<script src="{% static 'dashboard/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'dashboard/js/template.js' %}"></script>
+<script src="{% static 'dashboard/js/settings.js' %}"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Carica i dati relativi ai referral
+    function loadProfileData() {
+        $.ajax({
+            url: '{% url "core_profile_data" %}', // URL per l'API
+            method: 'GET',
+            success: function(response) {
+                // Aggiorna i dati nel template
+                $('#total-commission').text(`€${response.total_commission}`);
+                $('#active-referrals').text(response.active_referrals);
+                $('#total-rewards').text(`€${response.total_rewards}`);
+                $('#bonus-amount').text(`€${response.referral_bonus}`);
+                $('#bonus-programs-count').text(response.referral_bonus_programs.length);
+                $('#referral-codes-count').text(response.referral_codes.length);
+                $('#active-referral-codes').text(response.active_referral_codes.length);
+                
+                // Attività recenti
+                let activityHtml = '';
+                response.recent_activities.forEach(function(activity) {
+                    activityHtml += `<tr>
+                        <td>${new Date(activity.date).toLocaleDateString()}</td>
+                        <td>${activity.type}</td>
+                        <td>${activity.details}</td>
+                        <td>€${activity.amount}</td>
+                    </tr>`;
+                });
+                $('#recent-activities tbody').html(activityHtml);
+            },
+            error: function(error) {
+                console.error('Error loading profile data:', error);
+            }
+        });
+    }
+
+    // Carica i dati all'avvio
+    loadProfileData();
+});
+</script>
+{% endblock %}

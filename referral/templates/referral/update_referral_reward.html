@@ -1,0 +1,15 @@
+
+{% extends 'referral/base.html' %}
+
+{% block title %}Edit Transcription{% endblock %}
+
+{% block content %}
+    <h2>Edit Transcription</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Transcription</button>
+    </form>
+    <br>
+    <a href="{% url 'referral_transcription_list' %}">Back to Transcription List</a>
+{% endblock %}

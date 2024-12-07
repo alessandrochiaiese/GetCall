@@ -1,0 +1,107 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Affiliate Performance</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createPeriod" class="form-label">Period</label>
+                        <input type="text" class="form-control" data-field="period" id="createPeriod" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createActionDate" class="form-label">Total Clicks</label>
+                        <input type="date" class="form-control" data-field="total_clicks" id="createActionDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createConversionRate" class="form-label">Conversion Rate</label>
+                        <input type="text" class="form-control" data-field="converison_rate" id="createConversionRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createTotalEarnings" class="form-label">Total Earnings</label>
+                        <input type="text" class="form-control" data-field="total_earnings" id="createTotalEarnings" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" data-field="action_taken" id="createLocation" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createRefundRate" class="form-label">Refund Rate</label>
+                        <input type="text" class="form-control" data-field="refund_rate" id="createRefundRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createCustomerLifetimeValue" class="form-label">Customer Lifetime Value</label>
+                        <input type="text" class="form-control" data-field="customer_lifetime_value" id="createCustomerLifetimeValue" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createTopProduct" class="form-label">Top Product</label>
+                        <input type="text" class="form-control" data-field="top_product" id="createTopProduct" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Affiliate Performance</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editPeriod" class="form-label">Period</label>
+                        <input type="text" class="form-control" data-field="period" id="editPeriod" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editActionDate" class="form-label">Total Clicks</label>
+                        <input type="date" class="form-control" data-field="total_clicks" id="editActionDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editConversionRate" class="form-label">Conversion Rate</label>
+                        <input type="text" class="form-control" data-field="converison_rate" id="editConversionRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTotalEarnings" class="form-label">Total Earnings</label>
+                        <input type="text" class="form-control" data-field="total_earnings" id="editTotalEarnings" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" data-field="action_taken" id="editLocation" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRefundRate" class="form-label">Refund Rate</label>
+                        <input type="text" class="form-control" data-field="refund_rate" id="editRefundRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCustomerLifetimeValue" class="form-label">Customer Lifetime Value</label>
+                        <input type="text" class="form-control" data-field="customer_lifetime_value" id="editCustomerLifetimeValue" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTopProduct" class="form-label">Top Product</label>
+                        <input type="text" class="form-control" data-field="top_product" id="editTopProduct" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

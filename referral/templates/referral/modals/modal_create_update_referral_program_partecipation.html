@@ -1,0 +1,67 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Referral ProgramPartecipation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createDateJoined" class="form-label">Date Joined</label>
+                        <input type="text" class="form-control" data-field="date_joined" id="createDateJoined" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createConversionEarned" class="form-label">Conversion Earned</label>
+                        <input type="text" class="form-control" data-field="converison_earned" id="createConversionEarned" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createStatus" class="form-label">Status</label>
+                        <input type="date" class="form-control" data-field="status" id="createStatus" required>
+                    </div> 
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Referral ProgramPartecipation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editDateJoined" class="form-label">Date Joined</label>
+                        <input type="text" class="form-control" data-field="date_joined" id="editDateJoined" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editConversionEarned" class="form-label">Conversion Earned</label>
+                        <input type="text" class="form-control" data-field="converison_earned" id="editConversionEarned" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStatus" class="form-label">Status</label>
+                        <input type="date" class="form-control" data-field="status" id="editStatus" required>
+                    </div> 
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

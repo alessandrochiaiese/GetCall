@@ -1,0 +1,15 @@
+
+{% extends 'referral/base.html' %}
+
+{% block title %}Edit Program Partecipation{% endblock %}
+
+{% block content %}
+    <h2>Edit Program Partecipation</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Program Partecipation</button>
+    </form>
+    <br>
+    <a href="{% url 'referral_program_partecipation_list' %}">Back to Program Partecipation List</a>
+{% endblock %}

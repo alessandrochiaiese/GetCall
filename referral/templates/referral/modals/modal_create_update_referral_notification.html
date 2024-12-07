@@ -1,0 +1,83 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Referral Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createMessage" class="form-label">Message</label>
+                        <input type="text" class="form-control" data-field="message" id="createMessage" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createDateSent" class="form-label">DateSent</label>
+                        <input type="date" class="form-control" data-field="date_sent" id="createDateSent" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createIsRead" class="form-label">Is Read</label>
+                        <input type="text" class="form-control" data-field="is_read" id="createIsRead" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createPriority" class="form-label">Priority</label>
+                        <input type="text" class="form-control" data-field="priority" id="createPriority" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createNotificationType" class="form-label">Notification Type</label>
+                        <input type="text" class="form-control" data-field="notification_type" id="createNotificationType" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Referral Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editMessage" class="form-label">Message</label>
+                        <input type="text" class="form-control" data-field="message" id="editMessage" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDateSent" class="form-label">DateSent</label>
+                        <input type="date" class="form-control" data-field="date_sent" id="editDateSent" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editIsRead" class="form-label">Is Read</label>
+                        <input type="text" class="form-control" data-field="is_read" id="editIsRead" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPriority" class="form-label">Priority</label>
+                        <input type="text" class="form-control" data-field="priority" id="editPriority" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editNotificationType" class="form-label">Notification Type</label>
+                        <input type="text" class="form-control" data-field="notification_type" id="editNotificationType" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Referral Stat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createTicketNumber" class="form-label">Ticket Number</label>
+                        <input type="text" class="form-control" data-field="ticket_number" id="createTicketNumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createSubject" class="form-label">Subject</label>
+                        <input type="date" class="form-control" data-field="subject" id="createSubject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createDescription" class="form-label">Description</label>
+                        <input type="text" class="form-control" data-field="description" id="createDescription" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" data-field="status" id="createStatus" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createDateCreated" class="form-label">Date Created</label>
+                        <input type="text" class="form-control" data-field="date_created" id="createDateCreated" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createDateClosed" class="form-label">Date Closed</label>
+                        <input type="text" class="form-control" data-field="date_closed" id="createDateClosed" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createPriority" class="form-label">Priority</label>
+                        <input type="text" class="form-control" data-field="priority" id="createPriority" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createAssignedAgent" class="form-label">Assigned Agent</label>
+                        <input type="text" class="form-control" data-field="assigned_agent" id="createAssignedAgent" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Referral Stat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editTicketNumber" class="form-label">Ticket Number</label>
+                        <input type="text" class="form-control" data-field="ticket_number" id="editTicketNumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editSubject" class="form-label">Subject</label>
+                        <input type="date" class="form-control" data-field="subject" id="editSubject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescription" class="form-label">Description</label>
+                        <input type="text" class="form-control" data-field="description" id="editDescription" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" data-field="status" id="editStatus" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDateCreated" class="form-label">Date Created</label>
+                        <input type="text" class="form-control" data-field="date_created" id="editDateCreated" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDateClosed" class="form-label">Date Closed</label>
+                        <input type="text" class="form-control" data-field="date_closed" id="editDateClosed" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPriority" class="form-label">Priority</label>
+                        <input type="text" class="form-control" data-field="priority" id="editPriority" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAssignedAgent" class="form-label">Assigned Agent</label>
+                        <input type="text" class="form-control" data-field="assigned_agent" id="editAssignedAgent" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

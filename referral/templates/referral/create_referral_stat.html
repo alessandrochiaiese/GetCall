@@ -1,0 +1,14 @@
+{% extends 'referral/base.html' %}
+
+{% block title %}Add New Stat{% endblock %}
+
+{% block content %}
+    <h2>Add New Stat</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Stat</button>
+    </form>
+    <br>
+    <a href="{% url 'referral_stat_list' %}">Back to Stat List</a>
+{% endblock %}

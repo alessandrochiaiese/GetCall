@@ -1,0 +1,115 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Referral Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createTransactionAmount" class="form-label">Action Amount</label>
+                        <input type="text" class="form-control" data-field="action_amount" id="createTransactionAmount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createTransactionDate" class="form-label">Action Date</label>
+                        <input type="date" class="form-control" data-field="action_date" id="createTransactionDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createOrderId" class="form-label">Order ID</label>
+                        <input type="text" class="form-control" data-field="order_id" id="createOrderId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createProductId" class="form-label">Product ID</label>
+                        <input type="text" class="form-control" data-field="product_id" id="createProductId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" data-field="status" id="createStatus" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createPaymentDate" class="form-label">Payment Date</label>
+                        <input type="text" class="form-control" data-field="payment_date" id="createPaymentDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createCommissionRate" class="form-label">Commission Rate</label>
+                        <input type="text" class="form-control" data-field="commission_rate" id="createCommissionRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createDiscountApplied" class="form-label">discountApplied</label>
+                        <input type="text" class="form-control" data-field="discount_applied" id="createDiscountApplied" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createCouponCode" class="form-label">Coupon Code</label>
+                        <input type="text" class="form-control" data-field="coupon_code" id="createCouponCode" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Referral Transaction</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editTransactionAmount" class="form-label">Action Amount</label>
+                        <input type="text" class="form-control" data-field="action_amount" id="editTransactionAmount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTransactionDate" class="form-label">Action Date</label>
+                        <input type="date" class="form-control" data-field="action_date" id="editTransactionDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editOrderId" class="form-label">Order ID</label>
+                        <input type="text" class="form-control" data-field="order_id" id="editOrderId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editProductId" class="form-label">Product ID</label>
+                        <input type="text" class="form-control" data-field="product_id" id="editProductId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" data-field="status" id="editStatus" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPaymentDate" class="form-label">Payment Date</label>
+                        <input type="text" class="form-control" data-field="payment_date" id="editPaymentDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCommissionRate" class="form-label">Commission Rate</label>
+                        <input type="text" class="form-control" data-field="commission_rate" id="editCommissionRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDiscountApplied" class="form-label">discountApplied</label>
+                        <input type="text" class="form-control" data-field="discount_applied" id="editDiscountApplied" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCouponCode" class="form-label">Coupon Code</label>
+                        <input type="text" class="form-control" data-field="coupon_code" id="editCouponCode" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

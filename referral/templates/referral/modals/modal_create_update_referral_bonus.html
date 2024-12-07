@@ -1,0 +1,99 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Referral Bonus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createBonusType" class="form-label">Bonus Type</label>
+                        <input type="text" class="form-control" data-field="bonus_type" id="createBonusType" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createBonusValue" class="form-label">Bonus Value</label>
+                        <input type="text" class="form-control" data-field="bonus_value" id="createBonusValue" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createMinReferralsRequired" class="form-label">Min Referrals Required</label>
+                        <input type="text" class="form-control" data-field="min_referrals_required" id="createMinReferralsRequired" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createBonusDate" class="form-label">Bonus Date</label>
+                        <input type="date" class="form-control" data-field="bonus_date" id="createBonusDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createExipiryDate" class="form-label">Exipiry Date</label>
+                        <input type="date" class="form-control" data-field="expiry_date" id="createExipiryDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createMaxUsage" class="form-label">Max Usage</label>
+                        <input type="text" class="form-control" data-field="max_usage" id="createMaxUsage" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createEligibilityCriteria" class="form-label">Eligibility Criteria</label>
+                        <input type="text" class="form-control" data-field="eligibility_criteria" id="createEligibilityCriteria" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Referral Bonus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editBonusType" class="form-label">Bonus Type</label>
+                        <input type="text" class="form-control" data-field="bonus_type" id="editBonusType" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editBonusValue" class="form-label">Bonus Value</label>
+                        <input type="text" class="form-control" data-field="bonus_value" id="editBonusValue" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editMinReferralsRequired" class="form-label">Min Referrals Required</label>
+                        <input type="text" class="form-control" data-field="min_referrals_required" id="editMinReferralsRequired" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editBonusDate" class="form-label">Bonus Date</label>
+                        <input type="date" class="form-control" data-field="bonus_date" id="editBonusDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editExipiryDate" class="form-label">Exipiry Date</label>
+                        <input type="date" class="form-control" data-field="expiry_date" id="editExipiryDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editMaxUsage" class="form-label">Max Usage</label>
+                        <input type="text" class="form-control" data-field="max_usage" id="editMaxUsage" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEligibilityCriteria" class="form-label">Eligibility Criteria</label>
+                        <input type="text" class="form-control" data-field="eligibility_criteria" id="editEligibilityCriteria" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

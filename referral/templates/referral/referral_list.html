@@ -1,0 +1,58 @@
+{% extends "referral/base.html" %}
+
+{% block title %}Affiliate Audit Detail{% endblock %}
+
+{% block content %} <style>
+        .referral-list { margin: 20px; }
+    </style> 
+    <div class="container referral-list">
+        <h1>Referrals</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Country</th>
+                    <th>Status</th>
+                    <th>Total Earnings</th>
+                </tr>
+            </thead>
+            <tbody id="referralTableBody">
+                <!-- Affiliate data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    {% include 'referral/modals/modal_create_update_referral_audit.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getReferralIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchReferrals() {
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/referral/referrals/`);
+                const referrals = await response.json();
+                const tableBody = document.getElementById('referralTableBody');
+                referrals.forEach(referral => {
+                    const row = `<tr>
+                        <td>${referral.id}</td>
+                        <td>${referral.name}</td>
+                        <td>${referral.email}</td>
+                        <td>${referral.country}</td>
+                        <td>${referral.status}</td>
+                        <td>${referral.total_earnings}</td>
+                    </tr>`;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
+            } catch (error) {
+                console.error('Error fetching referrals:', error);
+            }
+        }
+
+        window.onload = fetchReferrals;
+    </script>
+{% endblock %}

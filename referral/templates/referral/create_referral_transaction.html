@@ -1,0 +1,14 @@
+{% extends 'referral/base.html' %}
+
+{% block title %}Add New Transaction{% endblock %}
+
+{% block content %}
+    <h2>Add New Transaction</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Transaction</button>
+    </form>
+    <br>
+    <a href="{% url 'referral_transaction_list' %}">Back to Transaction List</a>
+{% endblock %}

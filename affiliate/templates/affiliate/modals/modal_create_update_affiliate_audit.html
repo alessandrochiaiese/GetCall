@@ -1,0 +1,86 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Affiliate Audit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createActionTaken" class="form-label">Action Taken</label>
+                        <input type="text" class="form-control" data-field="action_taken" id="createActionTaken"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createActionDate" class="form-label">Action Date</label>
+                        <input type="date" class="form-control" data-field="action_date" id="createActionDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createIpAddress" class="form-label">IP Address</label>
+                        <input type="text" class="form-control" data-field="ip_address" id="createIpAddress" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createDeviceInfo" class="form-label">Device Info</label>
+                        <input type="text" class="form-control" data-field="device_info" id="createDeviceInfo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" data-field="location" id="createLocation" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Affiliate Audit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editActionTaken" class="form-label">Action Taken</label>
+                        <input type="text" class="form-control" data-field="action_taken" id="editActionTaken" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editActionDate" class="form-label">Action Date</label>
+                        <input type="date" class="form-control" data-field="action_date" id="editActionDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editIpAddress" class="form-label">IP Address</label>
+                        <input type="text" class="form-control" data-field="ip_address" id="editIpAddress"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDeviceInfo" class="form-label">Device Info</label>
+                        <input type="text" class="form-control" data-field="device_info" id="editDeviceInfo"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" data-field="location" id="editLocation" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

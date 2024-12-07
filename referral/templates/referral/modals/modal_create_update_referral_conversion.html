@@ -1,0 +1,91 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Referral Conversion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm"> 
+                    <div class="mb-3">
+                        <label for="editConversionDate" class="form-label">Conversion Date</label>
+                        <input type="date" class="form-control" data-field="converison_date" id="editConversionDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editConversionValue" class="form-label">Conversion Value</label>
+                        <input type="text" class="form-control" data-field="conversion_value" id="editConversionValue" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" data-field="status" id="editStatus" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRewardIssued" class="form-label">Reward Issued</label>
+                        <input type="text" class="form-control" data-field="reward_issued" id="editRewardIssued" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editConversionSource" class="form-label">Conversion Source</label>
+                        <input type="text" class="form-control" data-field="conversion_source" id="editConversionSource" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editReferralType" class="form-label">Referral Type</label>
+                        <input type="text" class="form-control" data-field="referral_type" id="editReferralType" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Referral Conversion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="createConversionDate" class="form-label">Conversion Date</label>
+                        <input type="date" class="form-control" data-field="converison_date" id="createConversionDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createConversionValue" class="form-label">Conversion Value</label>
+                        <input type="text" class="form-control" data-field="conversion_value" id="createConversionValue" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" data-field="status" id="createStatus" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createRewardIssued" class="form-label">Reward Issued</label>
+                        <input type="text" class="form-control" data-field="reward_issued" id="createRewardIssued" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createConversionSource" class="form-label">Conversion Source</label>
+                        <input type="text" class="form-control" data-field="conversion_source" id="createConversionSource" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createReferralType" class="form-label">Referral Type</label>
+                        <input type="text" class="form-control" data-field="referral_type" id="createReferralType" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

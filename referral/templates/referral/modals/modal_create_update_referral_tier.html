@@ -1,0 +1,99 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Affiliate Tier</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createTierName" class="form-label">Tier Name</label>
+                        <input type="text" class="form-control" data-field="tier_name" id="createTierName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createMinSales" class="form-label">Min Sales</label>
+                        <input type="text" class="form-control" data-field="min_sales" id="createMinSales" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createCommissionRate" class="form-label">Commission Rate</label>
+                        <input type="text" class="form-control" data-field="commission_rate" id="createCommissionRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createTierBenefits" class="form-label">Tier Benefits</label>
+                        <input type="text" class="form-control" data-field="tier_benefits" id="createTierBenefits" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createAccessLevel" class="form-label">Access Level</label>
+                        <input type="text" class="form-control" data-field="access_level" id="createAccessLevel" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createNextTierThreshold" class="form-label">Next Tier Threshold</label>
+                        <input type="text" class="form-control" data-field="next_tier_threshold" id="createNextTierThreshold" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createTierExpiration" class="form-label">Tier Expiration</label>
+                        <input type="text" class="form-control" data-field="tier_expiration" id="createTierExpiration" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Affiliate Tier</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editTierName" class="form-label">Tier Name</label>
+                        <input type="text" class="form-control" data-field="tier_name" id="editTierName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editMinSales" class="form-label">Min Sales</label>
+                        <input type="text" class="form-control" data-field="min_sales" id="editMinSales" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCommissionRate" class="form-label">Commission Rate</label>
+                        <input type="text" class="form-control" data-field="commission_rate" id="editCommissionRate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTierBenefits" class="form-label">Tier Benefits</label>
+                        <input type="text" class="form-control" data-field="tier_benefits" id="editTierBenefits" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAccessLevel" class="form-label">Access Level</label>
+                        <input type="text" class="form-control" data-field="access_level" id="editAccessLevel" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editNextTierThreshold" class="form-label">Next Tier Threshold</label>
+                        <input type="text" class="form-control" data-field="next_tier_threshold" id="editNextTierThreshold" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTierExpiration" class="form-label">Tier Expiration</label>
+                        <input type="text" class="form-control" data-field="tier_expiration" id="editTierExpiration" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

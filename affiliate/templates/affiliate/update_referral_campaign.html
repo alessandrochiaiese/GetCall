@@ -1,0 +1,15 @@
+
+{% extends 'referral/base.html' %}
+
+{% block title %}Edit Campaign{% endblock %}
+
+{% block content %}
+    <h2>Edit Campaign</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Campaign</button>
+    </form>
+    <br>
+    <a href="{% url 'referral_campaign_list' %}">Back to Campaign List</a>
+{% endblock %}

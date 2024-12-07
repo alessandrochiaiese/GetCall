@@ -1,0 +1,53 @@
+{% extends "referral/base.html" %}
+
+{% block title %}Referral Audit Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Referral Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="referralEngagementDetail">
+            <!-- Referral Engagementdetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'referral/modals/modal_create_update_referral_engagement.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getReferralIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchReferralEngagementDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/referral/engagements/${id}/`);
+                const referral = await response.json();
+                const detailList = document.getElementById('referralEngagementDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${referral.id}</li>
+                    <li class="list-group-item"><strong>Email Opened:</strong> ${referral.email_opened}</li>
+                    <li class="list-group-item"><strong>Email Clicked:</strong> ${referral.email_clicked}</li>
+                    <li class="list-group-item"><strong>Social Share Count:</strong> ${referral.social_share_count}</li> 
+                    <li class="list-group-item"><strong>Last Interaction Date:</strong> ${referral.last_interaction_date}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching referral engagement detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchReferralEngagementDetail();
+    </script>
+{% endblock %}

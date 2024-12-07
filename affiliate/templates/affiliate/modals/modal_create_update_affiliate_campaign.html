@@ -1,0 +1,91 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Affiliate Campaign</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createCampaignName" class="form-label">Campaign Name</label>
+                        <input type="text" class="form-control" data-field="campaign_name" id="createCampaignName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createStartDate" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" data-field="start_date" id="createStartDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createEndDate" class="form-label">End Date</label>
+                        <input type="date" class="form-control" data-field="end_date" id="createCreateEndDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createGoal" class="form-label">Goal</label>
+                        <input type="text" class="form-control" data-field="goal" id="createGoal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createBudget" class="form-label">Budget</label>
+                        <input type="text" class="form-control" data-field="budget" id="createBudget" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" data-field="location" id="createCreateLocation" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Affiliate Campaign</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editCampaignName" class="form-label">Campaign Name</label>
+                        <input type="text" class="form-control" data-field="campaign_name" id="editCampaignName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStartdDate" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" data-field="start_date" id="editStartdDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEndDate" class="form-label">End Date</label>
+                        <input type="date" class="form-control" data-field="end_date" id="editEndDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editGoal" class="form-label">Goal</label>
+                        <input type="text" class="form-control" data-field="goal" id="editGoal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editBudget" class="form-label">Budget</label>
+                        <input type="text" class="form-control" data-field="budget" id="editBudget" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editSpendingToDate" class="form-label">Spending To Date</label>
+                        <input type="text" class="form-control" data-field="spending_to_date" id="editSpendingToDate" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>

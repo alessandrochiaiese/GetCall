@@ -1,0 +1,182 @@
+{% extends "affiliate/base.html" %}
+
+{% block title %}Affiliate Notification List{% endblock %}
+
+{% block content %} <style>
+    .affiliate-list {
+        margin: 20px;
+    }
+</style>
+<div class="container affiliate-list">
+    <h1>Notification Affiliates</h1>
+    <!-- Search Bar -->
+    <div class="row search-bar">
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="searchInput"
+                placeholder="Search affiliates by action, location, or device info..." onkeyup="filterAffiliates()">
+        </div>
+        <div class="col-md-4 text-end">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                <i class="bi bi-plus"></i> Create Affiliate
+            </button>
+        </div>
+    </div>
+
+    <!-- Affiliate Table -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Message</th>
+                <th>Date Sent</th>
+                <th>Is Read</th>
+                <th>Priority</th>
+                <th>Notification Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="affiliateNotificationTableBody">
+            <!-- Affiliate data will be populated here -->
+        </tbody>
+    </table>
+</div>
+
+    {% include 'affiliate/modals/modal_create_update_affiliate_notification.html' %}
+
+<script>
+    let allAffiliates = []; // Store all affiliate data
+    async function fetchAffiliateNotifications() {
+        try {
+            const response = await fetch(`http://${window.location.host}/api/v0/affiliate/notifications/`);
+            allAffiliates = await response.json(); 
+            populateAffiliateTable(affiliates);
+            
+        } catch (error) {
+            console.error('Error fetching notifications affiliates:', error);
+        }
+    }
+
+    function populateAffiliateTable(affiliates) {
+        const tableBody = document.getElementById('affiliateNotificationTableBody');
+        tableBody.innerHTML = ''; // Clear table before populating
+        affiliates.forEach(affiliate => {
+                const row = `<tr>
+                        <td>${affiliate.id}</td>
+                        <td>${affiliate.message}</td>
+                        <td>${affiliate.date_sent}</td>
+                        <td>${affiliate.is_read}</td>
+                        <td>${affiliate.priority}</td>
+                        <td>${affiliate.notification_type}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm float-end" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editAffiliate(${affiliate.id})">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                        <button class="btn btn-warning btn-sm float-end" onclick="navigateToDetail(${affiliate.id})">
+                            <i class="bi bi-documnet"></i> Detail
+                        </button>
+                            <button class="btn btn-danger btn-sm float-end me-2" onclick="deleteAffiliate(${affiliate.id})">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>`;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+    }
+    
+    function populateModalFields(modalId, data = {}) {
+        const modal = document.getElementById(modalId);
+        if (!modal) return;
+
+        const inputs = modal.querySelectorAll('[data-field]');
+        inputs.forEach(input => {
+            const fieldName = input.getAttribute('data-field');
+            input.value = data[fieldName] || ''; // Assegna il valore o lascia vuoto
+        });
+    }
+
+    function prepareEditModal(id) {
+        const affiliate = allAffiliates.find(r => r.id === id);
+        if (affiliate) {
+            populateModalFields('editModal', affiliate);
+            document.getElementById('editSubmitBtn').onclick = () => saveAffiliateChanges(id);
+        }
+    }
+
+    function prepareCreateModal() {
+        populateModalFields('createModal'); // Campi vuoti per il nuovo inserimento
+        document.getElementById('createSubmitBtn').onclick = saveNewAffiliate;
+    }
+
+
+    function getFormData(modalId) {
+        const modal = document.getElementById(modalId);
+        if (!modal) return {};
+
+        const inputs = modal.querySelectorAll('[data-field]');
+        const formData = {};
+        inputs.forEach(input => {
+            const fieldName = input.getAttribute('data-field');
+            formData[fieldName] = input.value;
+        });
+        return formData;
+    }
+
+    function saveAffiliateChanges(id) {
+        const updatedData = getFormData('editModal');
+        fetch(`http://${window.location.host}/api/v0/affiliate/notifications/${id}/`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const index = allAffiliates.findIndex(r => r.id === id);
+                allAffiliates[index] = data;
+                populateAffiliateTable(allAffiliates);
+                $('#editModal').modal('hide');  // Optional, closes the modal after creation
+            })
+            .catch(error => console.error('Error updating affiliate:', error));
+    }
+
+    // Define the navigateTo function
+    function navigateToDetail(id) {
+        const url = `http://${window.location.host}/affiliate/audits/${id}/`; // Adjust the URL pattern to match your Django view
+        window.location.href = url; // Navigate to the URL
+    }
+
+    function deleteAffiliate(id) {
+        fetch(`http://${window.location.host}/api/v0/affiliate/notifications/${id}/`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then(response => {
+                console.log(response.status);
+                window.location.reload();
+             })
+            .catch(error => console.error('Error deleting affiliate:', error));
+
+    }
+
+    function saveNewAffiliate() {
+        const newAffiliate = getFormData('createModal');
+        fetch(`http://${window.location.host}/api/v0/affiliate/notifications/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newAffiliate),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                allAffiliates.push(data);
+                populateAffiliateTable(allAffiliates);
+                fetchAffiliateAudits();
+                $('#createModal').modal('hide');  // Optional, closes the modal after creation
+                document.getElementById('createForm').reset();
+            })
+            .catch(error => console.error('Error creating affiliate:', error));
+    }
+    window.onload = fetchAffiliateNotifications;
+</script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "referral/base.html" %}
+
+{% block title %}Referral Code Detail{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Referral Detail</h1>
+        
+    <!-- Filtraggio e bottoni di azione -->
+    <div class="d-flex justify-content-between mb-4">
+        <!-- Bottone per creare una nuova istanza -->
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-circle"></i> Create Instance
+        </button>
+ 
+    </div>
+
+    <!-- Tabella degli Audit -->
+    <ul class="list-group" id="referralCodeDetail">
+            <!-- Referral Codedetails will be displayed here -->
+        </ul>
+    </div>
+
+    {% include 'referral/modals/modal_create_update_referral_code.html' %}
+
+    <script>
+    // Funzione per estrarre l'ID dall'URL
+    function getReferralIdFromUrl() {
+        const pathSegments = window.location.pathname.split('/'); // Dividi il percorso dell'URL
+        return pathSegments[pathSegments.length - 2]; // L'ID dovrebbe essere il penultimo segmento
+    }
+        async function fetchReferralCodeDetail() {
+            const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
+            try {
+                const response = await fetch(`http://${window.location.host}/api/v0/referral/codes/${id}/`);
+                const referral = await response.json();
+                const detailList = document.getElementById('referralCodeDetail');
+                const details = `
+                    <li class="list-group-item"><strong>ID:</strong> ${referral.id}</li>
+                    <li class="list-group-item"><strong>Code:</strong> ${referral.code}</li>
+                    <li class="list-group-item"><strong>Usage Count:</strong> ${referral.usage_count}</li>
+                    <li class="list-group-item"><strong>Date Created:</strong> ${referral.date_created}</li>
+                    <li class="list-group-item"><strong>Status:</strong> ${referral.status}</li>
+                    <li class="list-group-item"><strong>Referred User Count:</strong> ${referral.referred_user_count}</li>
+                    <li class="list-group-item"><strong>Unique Url:</strong> ${referral.unique_url}</li>
+                    <li class="list-group-item"><strong>Campaign Source:</strong> ${referral.campaign_source}</li>
+                    <li class="list-group-item"><strong>Campaign Medium:</strong> ${referral.campaign_medium}</li>`;
+                detailList.innerHTML = details;
+            } catch (error) {
+                console.error('Error fetching referral code detail:', error);
+            }
+        }
+
+        // Chiamata alla funzione con l'ID dell'affiliato da visualizzare
+        fetchReferralCodeDetail();
+    </script>
+{% endblock %}

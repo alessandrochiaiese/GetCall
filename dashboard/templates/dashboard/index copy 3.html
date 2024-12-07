@@ -1,0 +1,163 @@
+{% extends "dashboard/layout.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Referral Program{% endblock %}
+
+{% block styles %}
+<!-- CSS Plugin e Custom -->
+<link rel="stylesheet" href="{% static 'dashboard/vendors/feather/feather.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/ti-icons/css/themify-icons.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/css/vendor.bundle.base.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/vertical-layout-light/style.css' %}">
+<link rel="shortcut icon" href="{% static 'dashboard/images/favicon.png' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Box Programmi di Affiliazione -->
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">I tuoi Programmi di Affiliazione</h4>
+                <div id="programs-list">
+                    <!-- Qui saranno mostrati i programmi di affiliazione -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Box Campagne Attive -->
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Campagne Attive</h4>
+                <div id="campaigns-list">
+                    <!-- Qui saranno mostrate le campagne -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Box Code Referral -->
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Il Tuo Codice Referral</h4>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="referral-code" readonly>
+                    <button class="btn btn-success mt-3" id="copy-code">Copia Codice</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Box Attività Recenti -->
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Attività Recenti</h4>
+                <div id="recent-activities">
+                    <!-- Qui saranno mostrate le attività recenti -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dashboard/vendors/js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'dashboard/vendors/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'dashboard/js/off-canvas.js' %}"></script>
+<script src="{% static 'dashboard/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'dashboard/js/template.js' %}"></script>
+<script src="{% static 'dashboard/js/settings.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        // Carica i dati del profilo
+        loadReferralData();
+
+        // Carica il codice referral
+        loadReferralCode();
+
+        // Funzione per caricare il codice referral tramite API
+        function loadReferralCode() {
+            $.get('/api/v0/referral/codes/', function(data) {
+                // Visualizza il codice referral
+                $('#referral-code').val(data.referral_link);
+            });
+        }
+
+        // Funzione per caricare i dati tramite chiamate API
+        function loadReferralData() {
+            $.get('/api/v0/referral/stats/', function(data) {
+                // Visualizza i dati generali di referral (commissioni, premi)
+                $('#total-commission').text(data.total_commission);
+                $('#active-referrals').text(data.active_referrals);
+                $('#total-rewards').text(data.total_rewards);
+
+                // Visualizza i codici referral
+                let programsHtml = '';
+                data.referral_codes.forEach(function(code) {
+                    programsHtml += `
+                        <div class="program">
+                            <h5>Codice Referral: ${code.code}</h5>
+                            <p>Utilizzazioni: ${code.usage_count}</p>
+                        </div>
+                    `;
+                });
+                $('#programs-list').html(programsHtml);
+
+                // Visualizza le campagne attive
+                let campaignsHtml = '';
+                data.referral_campaigns.forEach(function(campaign) {
+                    campaignsHtml += `
+                        <div class="campaign">
+                            <h5>Campagna: ${campaign.name}</h5>
+                            <p>Inizio: ${campaign.start_date} - Fine: ${campaign.end_date}</p>
+                            <button class="btn btn-primary participate-btn" data-campaign-id="${campaign.id}">Partecipa</button>
+                        </div>
+                    `;
+                });
+                $('#campaigns-list').html(campaignsHtml);
+
+                // Visualizza le attività recenti
+                let activitiesHtml = '';
+                data.recent_activities.forEach(function(activity) {
+                    activitiesHtml += `
+                        <div class="activity">
+                            <p><strong>${activity.date}</strong> - ${activity.type}: ${activity.details} (€${activity.amount})</p>
+                        </div>
+                    `;
+                });
+                $('#recent-activities').html(activitiesHtml);
+            });
+        }
+
+        // Funzione per copiare il codice referral
+        $('#copy-code').click(function() {
+            var copyText = $('#referral-code')[0];
+            copyText.select();
+            document.execCommand('copy');
+            alert('Codice Referral copiato!');
+        });
+
+        // Partecipare a una campagna
+        $(document).on('click', '.participate-btn', function() {
+            var campaignId = $(this).data('campaign-id');
+            $.post(`/api/v0/referral/campaigns/${campaignId}/participate/`, {}, function(response) {
+                if (response.success) {
+                    alert('Partecipato con successo!');
+                } else {
+                    alert('Errore durante la partecipazione.');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

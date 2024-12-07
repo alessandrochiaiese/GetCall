@@ -1,0 +1,123 @@
+
+<!-- Modal per creazione/aggiunta di nuova istanza -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Referral Code</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="mb-3">
+                        <label for="createCode" class="form-label">Code</label>
+                        <input type="text" class="form-control" data-field="action_taken" id="createCode" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createUsageCount" class="form-label">Usage Count</label>
+                        <input type="text" class="form-control" data-field="usage_count" id="createUsageCount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createDateCreated" class="form-label">Date Created</label>
+                        <input type="date" class="form-control" data-field="date_created" id="createDateCreated" required>
+                    </div> 
+                    <div class="mb-3">
+                        <label for="createStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" data-field="status" id="createStatus" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createExipiryDate" class="form-label">Exipiry Date</label>
+                        <input type="date" class="form-control" data-field="exipiryDate" id="createExipiryDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createDeviceInfo" class="form-label">Device Info</label>
+                        <input type="text" class="form-control" data-field="action_taken" id="createDeviceInfo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createReferredUserCount" class="form-label">Referred User Count</label>
+                        <input type="text" class="form-control" data-field="referred_user_count" id="createReferredUserCount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createUniqueUrl" class="form-label">Unique URL</label>
+                        <input type="text" class="form-control" data-field="unique_url" id="createUniqueUrl" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createCampaignSource" class="form-label">Campaign Source</label>
+                        <input type="text" class="form-control" data-field="campaign_source" id="createCampaignSource" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="createCampaignMedium" class="form-label">Campaign Medium</label>
+                        <input type="text" class="form-control" data-field="campaign_medium" id="createCampaignMedium" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="createSubmitBtn"
+                    onclick="saveNewAffiliate()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal per modifica istanza -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Referral Code</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="mb-3">
+                        <label for="editCode" class="form-label">Code</label>
+                        <input type="text" class="form-control" data-field="action_taken" id="editCode" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUsageCount" class="form-label">Usage Count</label>
+                        <input type="text" class="form-control" data-field="usage_count" id="editUsageCount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDateCreated" class="form-label">Date Created</label>
+                        <input type="date" class="form-control" data-field="date_editd" id="editDateCreated" required>
+                    </div> 
+                    <div class="mb-3">
+                        <label for="editStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" data-field="status" id="editStatus" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editExipiryDate" class="form-label">Exipiry Date</label>
+                        <input type="date" class="form-control" data-field="exipiryDate" id="editExipiryDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDeviceInfo" class="form-label">Device Info</label>
+                        <input type="text" class="form-control" data-field="action_taken" id="editDeviceInfo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editReferredUserCount" class="form-label">Referred User Count</label>
+                        <input type="text" class="form-control" data-field="referred_user_count" id="editReferredUserCount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUniqueUrl" class="form-label">Unique URL</label>
+                        <input type="text" class="form-control" data-field="unique_url" id="editUniqueUrl" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampaignSource" class="form-label">Campaign Source</label>
+                        <input type="text" class="form-control" data-field="campaign_source" id="editCampaignSource" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampaignMedium" class="form-label">Campaign Medium</label>
+                        <input type="text" class="form-control" data-field="campaign_medium" id="editCampaignMedium" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="editSubmitBtn" onclick="saveAffiliateChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
