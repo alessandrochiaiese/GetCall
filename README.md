@@ -1,4 +1,4 @@
-# getcall
+# getref
 
 # to start install packages with comand:
 pip install django django-oauth-toolkit django-hosts drf-yasg Pillow social-auth-app-django social-auth-core python-dotenv django-health-check
@@ -136,9 +136,9 @@ hosts:
 
     - [CGI](https://docs.microsoft.com/en-us/iis/configuration/system.webserver/cgi)
 
-2. Copy `getcall` to `C:/inetpub/wwwroot/getcall`
+2. Copy `getref` to `C:/inetpub/wwwroot/getref`
 
-3. Install Python 3.7 in `C:/Python37`, and install the necessary libraries `django`, `openpyxl`, `wfastcgi`; see `getcall/install_requirements.bat`
+3. Install Python 3.7 in `C:/Python37`, and install the necessary libraries `django`, `openpyxl`, `wfastcgi`; see `getref/install_requirements.bat`
 
 4. Navigate to `C:/`, right-click on `Python37`, and edit `Properties`. Under Security, add `IIS AppPool\DefaultAppPool`. `DefaultAppPool` is the default app pool.
 
@@ -148,7 +148,7 @@ hosts:
     
     - Copy the Python path, and replace the `scriptProcessor="<to be filled in>"` in web-config-template with the Python path returned by `wfastcgi-enable`.
 
-6. Edit the remaining settings in `web-config-template` then save it as `web.config` in the `C:/inetpub/wwwroot/` directory. It should NOT sit inside `getcall/`. Other settings can be modified if `getcall` does NOT sit at `C:/inetpub/wwwroot/`
+6. Edit the remaining settings in `web-config-template` then save it as `web.config` in the `C:/inetpub/wwwroot/` directory. It should NOT sit inside `getref/`. Other settings can be modified if `getref` does NOT sit at `C:/inetpub/wwwroot/`
 
     - Edit project `PYTHONPATH` (path to your project)
 
@@ -159,7 +159,7 @@ hosts:
 7. Open Internet Information Services (IIS) Manager. Under connections select the server, then in the center pane under Management select Configuration Editor. Under Section select system.webServer/handlers. Under Section select Unlock Section. This is required because the `C:/inetpub/wwwroot/web.config` creates a [route handler](https://pypi.org/project/wfastcgi/#route-handlers) for our project.
 
 
-8. Add Virtual Directory. In order to enable serving static files map a static alias to the static directory, `C:/inetpub/wwwroot/getcall/static/`
+8. Add Virtual Directory. In order to enable serving static files map a static alias to the static directory, `C:/inetpub/wwwroot/getref/static/`
 
 9. Refresh the server and navigate to `localhost`
 
@@ -192,7 +192,7 @@ For Apache 2.4 and mod_wsgi use the httpd.conf.template
 
 4. Install `django`, `openpyxl`, `modwsgi` (see `install_requirements.bat`)
 
-5. On a CMD terminal, run `mod_wsgi-express module-config`, then copy the contents and edit  `getcall/httpd.conf.template`. Edit paths to Python and your Django project.
+5. On a CMD terminal, run `mod_wsgi-express module-config`, then copy the contents and edit  `getref/httpd.conf.template`. Edit paths to Python and your Django project.
 
 6. On a CMD terminal, run `C:/Apache24/bin/httpd.exe -k start`, open a web browser and navigate to `localhost` (make sure `ALLOWED_HOSTS` has been updated).
 
@@ -204,7 +204,7 @@ For Apache 2.4 and mod_wsgi use the httpd.conf.template
 
 - [WFastCGI](https://pypi.org/project/wfastcgi/)
 
-For Microsoft IIS please use the `getcall/web-config-template` and the `getcall/static/web.config` files. Update the `web-config-template` as needed. It will be used to create a `web.config` that sits on `C:/inetpub/wwwroot/web.config`; The directory will contain all project files: `C:/inetpub/wwwroot/web.config` along with `C:/inetpub/wwwroot/getcall`.
+For Microsoft IIS please use the `getref/web-config-template` and the `getref/static/web.config` files. Update the `web-config-template` as needed. It will be used to create a `web.config` that sits on `C:/inetpub/wwwroot/web.config`; The directory will contain all project files: `C:/inetpub/wwwroot/web.config` along with `C:/inetpub/wwwroot/getref`.
 
 
 
@@ -236,11 +236,11 @@ For Microsoft IIS please use the `getcall/web-config-template` and the `getcall/
 
     - Create `sites-enabled` and `sites-available`
 
-    - Copy `getcall_nginx.conf` to the two directories
+    - Copy `getref_nginx.conf` to the two directories
 
 6. Edit `C:/nginx/conf/nginx.conf`
 
-    - Add `include <path to your sites-enabled/getcall_nginx.conf>;`
+    - Add `include <path to your sites-enabled/getref_nginx.conf>;`
 
     - Change port `80` to a non-essential port like `10`. We will need to utilize `80` for our Django project
 

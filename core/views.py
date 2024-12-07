@@ -18,7 +18,7 @@ from django.utils.decorators import method_decorator
 from referral.models import *
 from referral.forms import *
 from core.forms import *
-from getcall.settings import HOSTNAME
+from getref.settings import HOSTNAME
  
 
 User = get_user_model()

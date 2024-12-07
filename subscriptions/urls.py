@@ -2,7 +2,7 @@
 from django.conf.urls.static import static
 from django.urls import include, path, re_path as url
 
-from getcall import settings 
+from getref import settings 
 from .views import stripe_webhook
 from .views import PurchaseTokensAPIView, stripe_webhook
 

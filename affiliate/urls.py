@@ -4,7 +4,7 @@ from django.urls import include, path, re_path as url
 
 from affiliate.views.views_affiliate_audit import create_affiliate_audit, delete_affiliate_audit, update_affiliate_audit
 from affiliate.views.views_home import index_view
-from getcall import settings 
+from getref import settings 
 #from  affiliate.views.views_affiliate import * 
 from  affiliate.views.views_affiliate_audit import * 
 from  affiliate.views.views_affiliate_campaign import * 

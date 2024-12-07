@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path, re_path as url
 from core.views import CustomLoginView, ResetPasswordView, ChangePasswordView, ProfileView, UserProfileDataView, RegisterView
 from core.forms import LoginForm
-from getcall import settings  
+from getref import settings  
 
 """urlpatterns = [
     #path('', home, name='core-home'),

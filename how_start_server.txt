@@ -1,15 +1,15 @@
-sudo nano /etc/systemd/system/getcall.service
+sudo nano /etc/systemd/system/getref.service
 
 
 sudo systemctl daemon-reload
-sudo systemctl start getcall
-sudo systemctl enable getcall
-sudo systemctl status getcall
-sudo systemctl stop getcall
-sudo screen -dmS sudo systemctl start getcall
+sudo systemctl start getref
+sudo systemctl enable getref
+sudo systemctl status getref
+sudo systemctl stop getref
+sudo screen -dmS sudo systemctl start getref
 sudo screen -dmS sudo python3 manage.py runserver
 
-/home/alexander/getcall/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/alexander/getcall/getcall.sock getcall.wsgi:application
-/home/alexander/getcall/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/alexander/getcall/getcall.sock getcall.wsgi:application
-/home/alexander/getcall/env/bin/gunicorn --workers 1 --threads 8 --timeout 8000 --bind 188.40.130.190:8000 wsgi:app
+/home/alexander/getref/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/alexander/getref/getref.sock getref.wsgi:application
+/home/alexander/getref/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/alexander/getref/getref.sock getref.wsgi:application
+/home/alexander/getref/env/bin/gunicorn --workers 1 --threads 8 --timeout 8000 --bind 188.40.130.190:8000 wsgi:app
 

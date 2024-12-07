@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from accounts.models.user import User
-from getcall.settings import STRIPE_SECRET_KEY, STRIPE_ENDPOINT_SECRET
+from getref.settings import STRIPE_SECRET_KEY, STRIPE_ENDPOINT_SECRET
 import stripe
 
 from subscriptions.utils import send_subscription_email

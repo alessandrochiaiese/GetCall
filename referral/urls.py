@@ -2,7 +2,7 @@
 from django.conf.urls.static import static
 from django.urls import include, path, re_path as url
  
-from getcall import settings 
+from getref import settings 
 #from referral.views.views_referral import *
 from referral.views.views_referral_audit import *
 from referral.views.views_referral_campaign import *

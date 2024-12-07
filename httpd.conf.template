@@ -17,16 +17,16 @@ ServerName <IP Address>:80
 LoadFile "c:/python37/python37.dll"
 LoadModule wsgi_module "c:/python37/lib/site-packages/mod_wsgi/server/mod_wsgi.cp37-win_amd64.pyd"
 WSGIPythonHome "c:/python37"
-WSGIScriptAlias / "/home/alexander/getcall/getcall/wsgi.py"
-WSGIPythonPath "/home/alexander/getcall/"
+WSGIScriptAlias / "/home/alexander/getref/getref/wsgi.py"
+WSGIPythonPath "/home/alexander/getref/"
 
-<Directory "/home/alexander/getcall/getcall/">
+<Directory "/home/alexander/getref/getref/">
     <Files wsgi.py>
         Require all granted
     </Files>
 </Directory>
 
-Alias /static "/home/alexander/getcall/static/"
-<Directory "/home/alexander/getcall/static/">
+Alias /static "/home/alexander/getref/static/"
+<Directory "/home/alexander/getref/static/">
     Require all granted
 </Directory>

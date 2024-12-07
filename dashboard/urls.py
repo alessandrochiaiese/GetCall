@@ -2,7 +2,7 @@
 from django.conf.urls.static import static
 from django.urls import include, path, re_path as url
  
-from getcall import settings   
+from getref import settings   
 from dashboard.views import *
 
 from django.contrib.auth import views as auth_views
