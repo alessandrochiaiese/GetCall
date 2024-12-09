@@ -3,7 +3,7 @@
 import logging
  
 from django.contrib.auth import get_user_model
-from django.db.models.manager import BaseManager
+from typing import List
 
 from referral.models.referral_code import ReferralCode
 from referral.models.referral_conversion import ReferralConversion
@@ -20,7 +20,7 @@ class ReferralConversionService():
     def __init__(self) -> None:
         pass
     
-    def get_referral_conversions(self) -> BaseManager[ReferralConversion]:
+    def get_referral_conversions(self) -> List[ReferralConversion]:
         try:
             referral_conversions = ReferralConversion.objects.all() 
             return referral_conversions

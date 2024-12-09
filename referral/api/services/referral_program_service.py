@@ -3,7 +3,7 @@
 from datetime import datetime
 import logging
 
-from django.db.models.manager import BaseManager
+from typing import List
 from accounts.models.region import Region
 from referral.abstracts.test import ReferralCode
 from referral.models import ReferralProgram
@@ -22,7 +22,7 @@ class ReferralProgramService():
     def __init__(self) -> None:
         pass
     
-    def get_referral_programs(self) -> BaseManager[ReferralProgram]:
+    def get_referral_programs(self) -> List[ReferralProgram]:
         try:
             referral_programs = ReferralProgram.objects.all() 
             return referral_programs

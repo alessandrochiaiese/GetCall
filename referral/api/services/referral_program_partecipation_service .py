@@ -2,7 +2,7 @@
 
 import logging
 
-from django.db.models.manager import BaseManager
+from typing import List
 from referral.models import ReferralProgramPartecipation
 from django.contrib.auth import get_user_model
 
@@ -19,7 +19,7 @@ class ReferralProgramPartecipationPartecipationService():
     def __init__(self) -> None:
         pass
     
-    def get_referral_program_partecipations(self) -> BaseManager[ReferralProgramPartecipation]:
+    def get_referral_program_partecipations(self) -> List[ReferralProgramPartecipation]:
         try:
             referral_program_partecipations = ReferralProgramPartecipation.objects.all() 
             return referral_program_partecipations

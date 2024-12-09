@@ -2,7 +2,7 @@
 
 import logging
 
-from django.db.models.manager import BaseManager 
+from typing import List 
 from django.contrib.auth import get_user_model
 
 from referral.models.referral_settings import ReferralSettings
@@ -18,7 +18,7 @@ class ReferralSettingsService():
     def __init__(self) -> None:
         pass
     
-    def get_referral_settings(self) -> BaseManager[ReferralSettings]:
+    def get_referral_settings(self) -> List[ReferralSettings]:
         try:
             referral_settings = ReferralSettings.objects.all() 
             return referral_settings

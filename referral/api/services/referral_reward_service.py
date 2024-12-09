@@ -2,7 +2,7 @@
 
 import logging
 
-from django.db.models.manager import BaseManager
+from typing import List
 from referral.models import ReferralReward
 from django.contrib.auth import get_user_model
 
@@ -16,7 +16,7 @@ class ReferralRewardService():
     def __init__(self) -> None:
         pass
     
-    def get_referral_rewards(self) -> BaseManager[ReferralReward]:
+    def get_referral_rewards(self) -> List[ReferralReward]:
         try:
             referral_rewards = ReferralReward.objects.all() 
             return referral_rewards

@@ -2,7 +2,7 @@
 
 import logging
 
-from django.db.models.manager import BaseManager 
+from typing import List 
 from django.contrib.auth import get_user_model
 
 from referral.models.referral_code import ReferralCode
@@ -19,7 +19,7 @@ class ReferralStatsService():
     def __init__(self) -> None:
         pass
     
-    def get_referral_stats(self) -> BaseManager[ReferralStats]:
+    def get_referral_stats(self) -> List[ReferralStats]:
         try:
             referral_stats = ReferralStats.objects.all() 
             return referral_stats

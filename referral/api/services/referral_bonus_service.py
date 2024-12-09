@@ -2,7 +2,7 @@
 
 import logging
 
-from django.db.models.manager import BaseManager 
+from typing import List 
 from django.contrib.auth import get_user_model
 
 from referral.models.referral_bonus import ReferralBonus
@@ -18,7 +18,7 @@ class ReferralBonusService():
     def __init__(self) -> None:
         pass
     
-    def get_referral_bonus(self) -> BaseManager[ReferralBonus]:
+    def get_referral_bonus(self) -> List[ReferralBonus]:
         try:
             referral_bonus = ReferralBonus.objects.all() 
             return referral_bonus

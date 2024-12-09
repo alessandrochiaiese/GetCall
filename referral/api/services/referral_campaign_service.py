@@ -2,7 +2,7 @@
 
 import logging
 
-from django.db.models.manager import BaseManager
+from typing import List
 from django.contrib.auth import get_user_model
 
 from referral.models.referral_campaign import ReferralCampaign
@@ -19,7 +19,7 @@ class ReferralCampaignService():
     def __init__(self) -> None:
         pass
     
-    def get_referral_campaigns(self) -> BaseManager[ReferralCampaign]:
+    def get_referral_campaigns(self) -> List[ReferralCampaign]:
         try:
             referral_campaigns = ReferralCampaign.objects.all() 
             return referral_campaigns

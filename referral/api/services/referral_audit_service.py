@@ -2,7 +2,7 @@
 
 import logging
 
-from django.db.models.manager import BaseManager 
+from typing import List 
 from django.contrib.auth import get_user_model
 
 from referral.models.referral_audit import ReferralAudit
@@ -18,7 +18,7 @@ class ReferralAuditService():
     def __init__(self) -> None:
         pass
     
-    def get_referral_audits(self) -> BaseManager[ReferralAudit]:
+    def get_referral_audits(self) -> List[ReferralAudit]:
         try:
             referral_audits = ReferralAudit.objects.all() 
             return referral_audits
