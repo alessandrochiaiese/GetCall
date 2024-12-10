@@ -1,0 +1,59 @@
+
+{% extends "dashboard/layout.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Referred Incomplete Registrations{% endblock %}
+
+{% block styles %}
+<!-- CSS Plugin e Custom -->
+<link rel="stylesheet" href="{% static 'dashboard/vendors/feather/feather.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/ti-icons/css/themify-icons.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/css/vendor.bundle.base.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/vertical-layout-light/style.css' %}">
+<link rel="shortcut icon" href="{% static 'dashboard/images/favicon.png' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Utenti referenziati -->
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="section-title">I miei invitati</h4>
+                <table class="table table-striped" id="user-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Username</th>
+                            <th>Level</th>
+                            <th>Date Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-tbody ">
+                        {% for referred_user in referred_leveled_users %}
+                        <tr>
+                            <th>{{ referred_user.first_name }}</th>
+                            <th>{{ referred_user.last_name }}</th>
+                            <th>{{ referred_user.username }}</th>
+                            <th>{{ referred_user.level }}</th>
+                            <th>{{ referred_user.date_joined|date:"d/m/Y" }}</th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dashboard/vendors/js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'dashboard/vendors/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'dashboard/js/off-canvas.js' %}"></script>
+<script src="{% static 'dashboard/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'dashboard/js/template.js' %}"></script>
+<script src="{% static 'dashboard/js/settings.js' %}"></script>
+{% endblock %}
+ 

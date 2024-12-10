@@ -1,0 +1,136 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %} Home Page {% endblock title %}
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">Benvenuto, {{ user.first_name.title|default:'Guest' }}</h1>
+        <p class="lead">
+            Questo è un <b>sistema di registrazione, login, affiliati e referral</b> 
+            costruito con Django, un framework web open-source basato su Python che segue 
+            il pattern architetturale Model–Template–View (MTV).
+        </p>
+        <hr class="my-4">
+        <p class="lead">
+            {% if user.is_authenticated %}
+                <!-- Pulsante Logout -->
+                <a class="btn btn-danger btn-lg" href="{% url 'logout' %}" role="button">Logout</a>
+                <!-- Pulsante per il Sistema di Referral -->
+                <a class="btn btn-success btn-lg" href="{#% url 'referral_dashboard' %#}" role="button">Gestisci Referral</a>
+                <!-- Pulsante per il Sistema di Affiliate -->
+                <a class="btn btn-info btn-lg" href="{#% url 'affiliate_dashboard' %#}" role="button">Gestisci Affiliati</a>
+            {% else %}
+                <!-- Pulsante Login -->
+                <a class="btn btn-primary btn-lg" href="{% url 'core_login' %}" role="button">Accedi</a>
+                <!-- Pulsante Signup -->
+                <a class="btn btn-secondary btn-lg" href="{% url 'core_register' %}" role="button">Registrati</a>
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Sezione Informativa -->
+<div class="container mt-4">
+    <h1 class="text-center text-primary">Affiliate & Referral Dashboard</h1>
+    <p class="text-center text-muted">Gestisci e monitora le tue attività di affiliazione e referral.</p>
+    
+    <!-- Sezione Affiliate -->
+    <div class="mt-5">
+        <h2 class="text-secondary">Sistema Affiliate</h2>
+        <div class="row mt-3">
+            <!-- Performance -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Performance</h5>
+                        <p class="card-text">Visualizza le tue commissioni, payout e performance.</p>
+                        <a href="{% url 'affiliate_performance_list' %}" class="btn btn-primary btn-sm">Vai a Performance</a>
+                        <a href="{% url 'affiliate_commission_list' %}" class="btn btn-primary btn-sm">Vai a Commissioni</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Gestione Programmi -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Gestione Programmi</h5>
+                        <p class="card-text">Monitora campagne e partecipazioni.</p>
+                        <a href="{% url 'affiliate_campaign_list' %}" class="btn btn-primary btn-sm">Campagne</a>
+                        <a href="{#% url 'affiliate_program_partecipation_list' %#}" class="btn btn-primary btn-sm">Partecipazione</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Strumenti Operativi -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Strumenti</h5>
+                        <p class="card-text">Gestisci link, notifiche e impostazioni.</p>
+                        <a href="{% url 'affiliate_link_list' %}" class="btn btn-primary btn-sm">Link</a>
+                        <a href="{% url 'affiliate_setting_list' %}" class="btn btn-primary btn-sm">Impostazioni</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sezione Referral -->
+    <div class="mt-5">
+        <h2 class="text-secondary">Sistema Referral</h2>
+        <div class="row mt-3">
+            <!-- Codici e Programmi -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">Codici e Programmi</h5>
+                        <p class="card-text">Gestisci i tuoi codici e la partecipazione ai programmi.</p>
+                        <a href="{% url 'referral_code_list' %}" class="btn btn-success btn-sm">Codici</a>
+                        <a href="{#% url 'referral_program_partecipation_list' %#}" class="btn btn-success btn-sm">Partecipazione</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Conversioni e Transazioni -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">Conversioni e Transazioni</h5>
+                        <p class="card-text">Monitora conversioni e transazioni.</p>
+                        <a href="{% url 'referral_conversion_list' %}" class="btn btn-success btn-sm">Conversioni</a>
+                        <a href="{% url 'referral_transaction_list' %}" class="btn btn-success btn-sm">Transazioni</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Impostazioni e Statistiche -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">Impostazioni</h5>
+                        <p class="card-text">Gestisci le impostazioni e visualizza le statistiche.</p>
+                        <a href="{% url 'referral_setting_list' %}" class="btn btn-success btn-sm">Impostazioni</a>
+                        <a href="{% url 'referral_stat_list' %}" class="btn btn-success btn-sm">Statistiche</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Sistema Affiliate</h2>
+                <p>
+                    Il sistema di affiliazione consente di guadagnare commissioni invitando nuovi utenti 
+                    a registrarsi tramite il tuo link di affiliazione. Accedi per monitorare le tue performance.
+                </p>
+                <a class="btn btn-info" href="{#% url 'affiliate_dashboard' %#}">Esplora Sistema Affiliate</a>
+            </div>
+            <div class="col-md-6">
+                <h2>Sistema Referral</h2>
+                <p>
+                    Con il sistema di referral, puoi invitare amici o colleghi e ottenere ricompense. 
+                    Gestisci i tuoi inviti e visualizza i progressi del tuo network.
+                </p>
+                <a class="btn btn-success" href="{#% url 'referral_dashboard' %#}">Esplora Sistema Referral</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

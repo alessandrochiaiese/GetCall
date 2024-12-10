@@ -68,6 +68,142 @@
 </div>
 
 
+<!-- Sezione per gli Utenti Invitati -->
+<!-- Si puo cancellare se funziona la tabella -->
+<!-- Con questo elenco si possono vedere solo i referenziati di primo livello -->
+<div class="mt-3">
+    <h4>Utenti invitati</h4>
+    <ul>
+        {% for referred_user in referred_users %}
+        <li>
+            {{ referred_user.username }}
+            <span class="text-muted">(Registrato il {{ referred_user.date_joined|date:"d/m/Y" }})</span>
+        </li>
+        {% empty %}
+        <li>Non hai ancora invitato nessuno.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+
+<!-- Utenti referenziati -->
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="section-title">I miei invitati</h4>
+                <table class="table table-striped" id="user-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Username</th>
+                            <th>Level</th>
+                            <th>Date Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-tbody ">
+                        {% for referred_user in referred_leveled_users %}
+                        <tr>
+                            <th>{{ referred_user.first_name }}</th>
+                            <th>{{ referred_user.last_name }}</th>
+                            <th>{{ referred_user.username }}</th>
+                            <th>{{ referred_user.level }}</th>
+                            <th>{{ referred_user.date_joined|date:"d/m/Y" }}</th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Statistiche Generali e Performance Referral -->
+<div class="row mt-3">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="section-title">Statistiche del Profilo</h4>
+                <p class="profile-stat">Totale Guadagni:</p>
+                <p id="total-commission" class="profile-stat-value">€0.00</p>
+                <p class="profile-stat">Referral Attivi:</p>
+                <p id="active-referrals" class="profile-stat-value">0</p>
+                <p class="profile-stat">Commissioni Totali:</p>
+                <p id="total-rewards" class="profile-stat-value">€0.00</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sezione Codice Referral -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="section-title">Il Tuo Codice Referral</h4>
+                <p class="profile-stat">Codice Referral:</p>
+                <p id="referral-code" class="profile-stat-value">{{ user.referral_code.code }}</p>
+                <p class="profile-stat">Link Referral Unico:</p>
+                <input type="text" id="referral-link" class="form-control" value="{{ user.referral_code.unique_url }}"
+                    readonly>
+                <button type="button" id="copy-link-btn" class="copy-link-btn btn-lg">Copia Link</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dettagli Referral e Programmi -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="section-title">Bonus Referral</h4>
+                <p id="bonus-amount" class="profile-stat-value">€0.00</p>
+                <p class="profile-stat">Programmi Bonus:</p>
+                <p id="bonus-programs-count" class="profile-stat-value">0</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="section-title">Codici Referral</h4>
+                <p id="referral-codes-count" class="profile-stat-value">0</p>
+                <p class="profile-stat">Codici Attivi:</p>
+                <p id="active-referral-codes" class="profile-stat-value">0</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Attività Recenti -->
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="section-title">Attività Recenti</h4>
+                <table class="table table-striped" id="recent-activities">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Tipo</th>
+                            <th>Dettagli</th>
+                            <th>Importo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Attività recenti caricate via AJAX -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Box Attività Recenti -->
 <div class="row">
@@ -277,7 +413,7 @@
         document.getElementById('createProgramForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const name = document.getElementById('program-name').value;
-            
+
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/v0/referral/programs/', {
                     method: 'POST',

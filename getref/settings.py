@@ -47,7 +47,8 @@ SECRET_KEY = config("SECRET_KEY")#'j4t8b-htj3%e0vi!eazyysx%tch$w3#u=*@c$3njqc9&!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True #
 
-ALLOWED_HOSTS = ['*'] #["127.0.0.1", "localhost"]
+#ALLOWED_HOSTS = ['*'] #["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["getcall.pythonanywhere.com", "127.0.0.1", "localhost"]
 
  
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'doc', 'docx',
@@ -80,8 +81,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'core',
+    'django.contrib.staticfiles', 
     'dashboard',
     'affiliate',
     'referral',

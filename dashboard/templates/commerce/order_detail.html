@@ -1,0 +1,7 @@
+<h2>Choose payment broker:</h2>
+
+<form action="{% url 'getpaid:create-payment' %}" method="post">
+    {% csrf_token %}
+    {{ payment_form.as_p }}
+    <input type="submit" value="Checkout">
+</form>

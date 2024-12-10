@@ -1,0 +1,280 @@
+{% extends "dashboard/layout.html" %}
+
+{% load static %}
+
+{% block title %}Pagina Profilo - {{ user.first_name }}{% endblock %}
+
+{% block styles %}
+<!-- Aggiungere link a librerie CSS -->
+<link rel="stylesheet" href="{% static 'dashboard/vendors/feather/feather.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/ti-icons/css/themify-icons.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/vendors/css/vendor.bundle.base.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/vertical-layout-light/style.css' %}">
+<!-- Aggiungere stili personalizzati per la pagina -->
+<style>
+    .profile-header {
+        background-color: #f8f9fa;
+        padding: 5px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .profile-header img {
+        /*width: 120px;
+        height: 120px;
+        margin-bottom: 15px;*/
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .section-title {
+        font-weight: bold;
+        color: #2d3e50;
+        margin-top: 20px;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+    }
+
+    .profile-stat {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .profile-stat-value {
+        font-size: 18px;
+        color: #28a745;
+    }
+
+    .card {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn-custom {
+        background-color: #0062cc;
+        color: white;
+        border: none;
+    }
+
+    .btn-custom:hover {
+        background-color: #0056b3;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .copy-link-btn {
+        margin-top: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <!-- Header Profilo -->
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="img-fluid rounded-circle">
+            <h2>{{ user.first_name|default:"Guest" }} {{ user.last_name|default:"" }}</h2>
+            <p class="text-muted">Benvenuto nel tuo profilo. Gestisci il tuo account e visualizza i tuoi referral.</p>
+            <p>Ti sei registrato con il codice referral:
+                {% if referrer_code %}
+                {{ referrer_code }}
+                {% else %}
+                Nessuno
+                {% endif %} </p>
+
+            <h4>Il tuo codice referral</h4>
+            {% if referral_code %}
+            <div class="input-group">
+                <input type="text" class="form-control" value="{{ referral_code }}" readonly>
+                <button class="btn btn-primary" id="copy-code">Copia Codice</button>
+            </div>
+            {% else %}
+            <p class="text-muted">Non hai un codice referral disponibile.</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="alert alert-dismissible fade show mt-3">
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Modifica Dati Personali -->
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="section-title mb-4">Modifica Dati Personali</h4>
+                    <form method="POST" action="{% url 'core_profile' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- User form -->
+                        {{ form.as_p }}
+
+                        <!-- Profile form -->
+                        {{ profile_form.as_p }}
+
+                        <!-- Pulsanti -->
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary btn-lg me-2">Salva Modifiche</button>
+                            <button type="reset" class="btn btn-secondary btn-lg">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modifica Dati Personali -->
+    <!--<div class="row mt-2">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="section-title">Modifica Dati Personali</h4>
+                    <form method="post" action="{#% url 'profiles' %#}" enctype="multipart/form-data">
+                        {#% csrf_token %#}
+                        <div class="form-group">
+                            <label for="id_username">Username:</label>
+                            <input type="text" value="{#{ user.username }#}">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_first_name">Nome:</label>
+                            <input type="text" value="{##{ user.first_name }##}">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_last_name">Cognome:</label>
+                            <input type="text" value="{##{ user.last_name }##}">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_email">Email:</label>
+                            <input type="text" value="{#{ user.email }#}">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_bio">Bio:</label>
+                            <input type="text" value="{#{ user.bio }#}">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_avatar">Cambia Avatar:</label>
+                            {#{ profile_form.avatar }#}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-custom btn-lg">Salva Modifiche</button>
+                            <button type="reset" class="btn btn-secondary btn-lg">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>-->
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'dashboard/vendors/js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'dashboard/js/off-canvas.js' %}"></script>
+<script src="{% static 'dashboard/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'dashboard/js/template.js' %}"></script>
+<script src="{% static 'dashboard/js/settings.js' %}"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Funzione per copiare il link referral
+        $('#copy-link-btn').click(function () {
+            var referralLink = $('#referral-link');
+            referralLink.select();
+            document.execCommand('copy');
+            alert('Link Referral Copiato!');
+        });
+
+        // Carica i dati relativi ai referral
+        /*function loadProfileData() {
+            $.ajax({
+                url: '{% url "core_profile_data" %}', // URL per l'API
+                method: 'GET',
+                success: function (response) {
+                    // Aggiorna i dati nel template
+                    $('#total-commission').text(`€${response.referral_data.total_commission}`);
+                    $('#active-referrals').text(response.referral_data.active_referrals);
+                    $('#total-rewards').text(`€${response.referral_data.total_rewards}`);
+                    $('#bonus-amount').text(`€${response.referral_bonus}`);
+                    $('#bonus-programs-count').text(response.referral_bonus_programs?.length);
+                    $('#referral-codes-count').text(response.referral_codes?.length);
+                    $('#active-referral-codes').text(response.active_referral_codes?.length);
+
+                    // Attività recenti
+                    let activityHtml = '';
+                    if (Array.isArray(recent_activities)) {
+                        response.recent_activities.forEach(function (activity) {
+                            activityHtml += `<tr>
+                        <td>${new Date(activity.date).toLocaleDateString()}</td>
+                        <td>${activity.type}</td>
+                        <td>${activity.details}</td>
+                        <td>€${activity.amount}</td>
+                    </tr>`;
+                        });
+                        $('#recent-activities tbody').html(activityHtml);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error loading profile data:', error);
+                }
+            });
+        }*/
+
+
+        // Funzione per caricare i dati dalla backend
+        function loadUserData() {
+            const response = fetch('http://localhost:8000/get-level-users/');  // URL delle API backend
+            const users = response.json();
+
+            console.log(users);
+            let tableBody = document.getElementById('user-table-tbody'); 
+            tableBody.innerHTML = '';  // Svuota la tabella esistente
+
+            // Aggiungi una riga per ogni utente
+            users.forEach(user => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${user.first_name}</td>
+                    <td>${user.last_name}</td>
+                    <td>${user.username}</td>
+                    <td>${user.level}</td>
+                `;
+
+                console.log(row);
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Carica i dati degli utenti quando la pagina viene caricata
+        //loadUserData(); // document.addEventListener('DOMContentLoaded', loadUserData);
+        // Carica i dati all'avvio
+        // loadProfileData();
+    });
+</script>
+{% endblock %}

@@ -50,8 +50,7 @@ urlpatterns = [
     
     # accounts 
     path('', include('accounts.urls')),
-    # apps 
-    path('', include('core.urls')),
+    # apps   
     path('', include('dashboard.urls')),
     path('', include('affiliate.urls')),
     path('', include('referral.urls')), 
