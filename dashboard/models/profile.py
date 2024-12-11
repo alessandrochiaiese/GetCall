@@ -31,7 +31,7 @@ class Profile(models.Model):
     is_owner = models.BooleanField(default=False)
     user_ower = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE, related_name="owner_business")
     iva = models.CharField(max_length=32, default="0000")
-    office_number = models.CharField(max_length=13, default="", unique=True) 
+    office_number = models.CharField(max_length=13, blank=True, null=True, unique=True) 
     
     
     # buyer
