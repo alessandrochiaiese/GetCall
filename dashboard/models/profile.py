@@ -36,7 +36,7 @@ class Profile(models.Model):
     
     # buyer
     transactions = models.ManyToManyField(AffiliateTransaction, related_name='txns')
-    payment_method = models.OneToOneField(PaymentMethod, on_delete=models.CASCADE, related_name='payment')
+    payment_method = models.OneToOneField(PaymentMethod, blank=True, null=True, on_delete=models.CASCADE, related_name='payment')
 
 
     def __str__(self):
