@@ -47,8 +47,8 @@
     </div>
 </div>
 
-<!-- Box Code Referral -->
 <div class="row mt-4">
+    <!-- Box Code Referral -->
     <div class="col-md-6 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -58,17 +58,15 @@
                         readonly>
                     <button class="btn btn-success mt-3" id="copy-code">Copia Codice</button>
                 </div>
-                <a href="{{ user.profile.referral_code.unique_url }}" id="referral-code-url" class="btn btn-primary mt-3"
-                    target="_blank">
+                <a href="{{ user.profile.referral_code.unique_url }}" id="referral-code-url"
+                    class="btn btn-primary mt-3" target="_blank">
                     Condividi e Usa
                 </a>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Statistiche Generali e Performance Referral -->
-<div class="row mt-4">
+    <!-- Statistiche Generali e Performance Referral -->
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
@@ -154,7 +152,7 @@
     </div>
 </div>
 
- 
+
 <!-- Dettagli Referral e Programmi -->
 <div class="row mt-4">
     <div class="col-md-6">
@@ -203,7 +201,7 @@
         </div>
     </div>
 </div>
- 
+
 
 <!-- Modale per Creare un Programma -->
 <div class="modal fade" id="createProgramModal" tabindex="-1" role="dialog" aria-labelledby="createProgramModalLabel"
@@ -372,6 +370,17 @@
                     console.warn('Le attività recenti non sono disponibili o sono mal formattate.');
                 }
 
+
+                let referral_code = document.getElementById('referral-code');
+                let referral_code_url = document.getElementById('referral-code-url');
+                console.debug(referral_code);
+                $.get(`${window.location.protocol}//${window.location.host}/profile/data/`, function (data) {
+                    // Visualizza il codice referral direttamente dal JSON ricevuto
+                    console.debug(data.referral_code);
+                    referral_code.value = data.referral_code;
+                    referral_code_url.setAttribute('href', `${window.location.protocol}//${window.location.host}/referral-code/${data.referral_code}/`);
+                });
+
             } catch (error) {
                 console.error('Errore nel caricamento dei dati di referral:', error);
             }
@@ -380,7 +389,7 @@
         // Carica i dati del profilo
         loadReferralData();
 
-        /*F
+        /* 
         // Funzione per caricare i dati tramite chiamate API
         function loadReferralData() {
             let referral_code = document.getElementById('referral-code');
@@ -423,27 +432,27 @@
             }
         });
 
-    // Funzione per copiare il link referral
-    $('#copy-code').click(function() {
-        var copyText = $('#referral-link')[0];
-        copyText.select();
-        document.execCommand('copy');
-        alert('Link referral copiato!');
-    });
-
-    // Partecipare a una campagna
-    $(document).on('click', '.participate-btn', function() {
-        var programId = $(this).data('program-id');
-        var programPartecipationId = $(this).data('partecipation-id');
-        var campaignId = $(this).data('campaign-id');
-        $.post(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/progrmas/${program_id}/partecipations/${partecipation_id}/`, { campaign_id: campaignId }, function(response) {
-            if (response.success) {
-                alert('Partecipato con successo!');
-            } else {
-                alert('Errore durante la partecipazione.');
-            }
+        // Funzione per copiare il link referral
+        $('#copy-code').click(function () {
+            var copyText = $('#referral-link')[0];
+            copyText.select();
+            document.execCommand('copy');
+            alert('Link referral copiato!');
         });
-    });
+
+        // Partecipare a una campagna
+        $(document).on('click', '.participate-btn', function () {
+            var programId = $(this).data('program-id');
+            var programPartecipationId = $(this).data('partecipation-id');
+            var campaignId = $(this).data('campaign-id');
+            $.post(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/progrmas/${program_id}/partecipations/${partecipation_id}/`, { campaign_id: campaignId }, function (response) {
+                if (response.success) {
+                    alert('Partecipato con successo!');
+                } else {
+                    alert('Errore durante la partecipazione.');
+                }
+            });
+        });
         // Gestione creazione campagna
         document.getElementById('createCampaignForm').addEventListener('submit', async function (e) {
             e.preventDefault();

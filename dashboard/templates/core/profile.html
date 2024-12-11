@@ -203,11 +203,19 @@
 <script>
     $(document).ready(function () {
         // Funzione per copiare il link referral
-        $('#copy-link-btn').click(function () {
+        $('#copy-code').click(function () {
             var referralLink = $('#referral-link');
             referralLink.select();
             document.execCommand('copy');
             alert('Link Referral Copiato!');
+        });
+
+        // Funzione per copiare il link referral
+        $('#copy-code').click(function () {
+            var copyText = $('#referral-link')[0];
+            copyText.select();
+            document.execCommand('copy');
+            alert('Link referral copiato!');
         });
 
         // Carica i dati relativi ai referral
@@ -270,14 +278,6 @@
                 tableBody.appendChild(row);
             });
         }
-
-        // Funzione per copiare il link referral
-        $('#copy-code').click(function () {
-            var copyText = $('#referral-link')[0];
-            copyText.select();
-            document.execCommand('copy');
-            alert('Link referral copiato!');
-        });
 
         // Carica i dati degli utenti quando la pagina viene caricata
         //loadUserData(); // document.addEventListener('DOMContentLoaded', loadUserData);
