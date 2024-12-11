@@ -34,7 +34,7 @@
     <script>
         async function fetchAccountRoles() {
             try {
-                const response = await fetch(`http://${window.location.host}/api/v0/accounts/roles/`);
+                const response = await fetch(`${window.location.protocol}://${window.location.host}/api/v0/accounts/roles/`);
                 const accounts = await response.json();
                 const tableBody = document.getElementById('accountRoleTableBody');
                 accounts.forEach(account => {

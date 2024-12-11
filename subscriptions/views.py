@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from accounts.models.user import User
+from getref import settings
 from getref.settings import STRIPE_SECRET_KEY, STRIPE_ENDPOINT_SECRET
 import stripe
 
@@ -40,8 +41,8 @@ class PurchaseTokensAPIView(APIView):
                     'quantity': 1,
                 }],
                 mode='payment',
-                success_url='https://your-site.com/success/',  # URL di successo
-                cancel_url='https://your-site.com/cancel/',  # URL di cancellazione
+                success_url=request.build_absolute_uri("/success/"), #'https://your-site.com/success/',  # URL di successo
+                cancel_url=request.build_absolute_uri("/cancel/"), #'https://your-site.com/cancel/',  # URL di cancellazione
                 client_reference_id=user.id,  # Passiamo l'ID dell'utente
                 metadata={'package_id': package.id},
             )

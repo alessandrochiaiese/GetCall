@@ -11,41 +11,48 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import mimetypes
+
+from ordered_set import T
 mimetypes.add_type("text/javascript", ".js' %}", True)
-
-import socket
-#try: HOSTNAME = socket.gethostname()
-#except: HOSTNAME = 'localhost'
-
-import platform
-OS = platform.system()  # e.g. Windows, Linux, Darwin
-OS_ARCHITECTURE = platform.architecture() # e.g. 64-bit
-OS_MACHINE = platform.machine() # e.g. x86_64
-HOSTNAME = platform.node()  # Hostname # '127.0.0.1:8000'
-PROCESSOR_INFO = platform.processor()  # e.g. i386
-
-
+ 
 import os
 from pathlib import Path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
  
+
+
 #!pip install python-dotenv
 #from dotenv import load_dotenv
 
 #load_dotenv()  # take environment variables from .env.
  
-from decouple import config
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
+from decouple import config
+
+# Now you can access your environment variables using os.getenv 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")#'j4t8b-htj3%e0vi!eazyysx%tch$w3#u=*@c$3njqc9&!j!x9r'
+SECRET_KEY = config("SECRET_KEY") #'j4t8b-htj3%e0vi!eazyysx%tch$w3#u=*@c$3njqc9&!j!x9r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #
+DEBUG = config("DEBUG") # True #
+
+# Stripe configuration 
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STRIPE_CHARGE = config('STRIPE_CHARGE')
+STRIPE_VERSION = config('STRIPE_VERSION')
+
+# This is only required when using webhooks
+STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
+
+OAUTH2_CLIENT_ID=config('OAUTH2_CLIENT_ID')
+OAUTH2_CLIENT_SECRET=config('OAUTH2_CLIENT_SECRET')
+
 
 #ALLOWED_HOSTS = ['*'] #["127.0.0.1", "localhost"]
 ALLOWED_HOSTS = ["getcall.pythonanywhere.com", "127.0.0.1", "localhost"]
@@ -58,20 +65,6 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'doc', 'docx',
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# Now you can access your environment variables using os.getenv 
-
-
-# Stripe configuration 
-STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
-STRIPE_CHARGE = config('STRIPE_CHARGE')
-STRIPE_VERSION = config('STRIPE_VERSION')
-
-# This is only required when using webhooks
-STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
-
-
 
 
 # Application definition
@@ -120,6 +113,7 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True  # Allows requests from all origins
 
 CORS_ALLOWED_ORIGINS = [
+    'https://getcall.pythonanywhere.com',
     'http://localhost:3000',  # Add your frontend's URL
     'http://0.0.0.0:8000'
 ]
@@ -254,13 +248,13 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Security settings 
-#SECURE_CONTENT_TYPE_NOSNIFF = True
-#SECURE_BROWSER_XSS_FILTER = True
-#SESSION_COOKIE_SECURE = True
-#CSRF_COOKIE_SECURE = True
-#SECURE_SSL_REDIRECT = True
-#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-#CSRF_TRUSTED_ORIGINS = ['yoursite.com']
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = ['getcall.pythonanywhere.com']
 
 OAUTH2_PROVIDER = {
     'ACCESS_TOKEN_EXPIRE_SECONDS': 36000, 
@@ -300,10 +294,16 @@ SWAGGER_SETTINGS = {
             }
         }
     },
-    'OAUTH2_REDIRECT_URL': 'http://localhost/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html',
+    'OAUTH2_REDIRECT_URL': 'http://localhost/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html' \
+        if DEBUG is True \
+        else 'https://getcall.pythonanywhere.com/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html',
     'OAUTH2_CONFIG': {
-        'clientId': 'GetCallClientId',
-        'clientSecret': 'GetCallClientSecret',
+        'clientId':  OAUTH2_CLIENT_ID \
+            if DEBUG is True \
+            else 'GetCallClientId',
+        'clientSecret': OAUTH2_CLIENT_SECRET\
+            if DEBUG is True \
+            else 'GetCallClientSecret',
         'appName': 'GetCall'
 
     },

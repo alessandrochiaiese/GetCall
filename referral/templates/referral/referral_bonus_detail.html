@@ -32,7 +32,7 @@
         async function fetchReferralAuditDetail() {
             const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
             try {
-                const response = await fetch(`http://${window.location.host}/api/v0/referral/bonus/${id}/`);
+                const response = await fetch(`${window.location.protocol}://${window.location.host}/api/v0/referral/bonus/${id}/`);
                 const referral = await response.json();
                 const detailList = document.getElementById('referralAuditDetail');
                 const details = `

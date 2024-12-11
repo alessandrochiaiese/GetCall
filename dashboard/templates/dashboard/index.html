@@ -405,7 +405,7 @@
                 // Visualizza il codice referral direttamente dal JSON ricevuto
                 console.debug(data.referral_code);
                 referral_code.value = data.referral_code;
-                referral_code_url.setAttribute('href', 'http://127.0.0.1:8000/referral-code/' + data.referral_code + '/');
+                referral_code_url.setAttribute('href', `${window.location.protocol}//${window.location.host}/referral-code/${data.referral_code}/`);
             });
         }
 
@@ -415,7 +415,7 @@
             const name = document.getElementById('program-name').value;
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/v0/referral/programs/', {
+                const response = await fetch(`${window.location.protocol}//${window.location.host}/api/v0/referral/programs/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -446,7 +446,7 @@
             const programId = document.getElementById('campaign-program').value;
 
             try {
-                const response = await fetch('/api/v0/referral/campaigns/', {
+                const response = await fetch(`${window.location.protocol}://${window.location.host}/api/v0/referral/campaigns/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, start_date: startDate, end_date: endDate, program_id: programId })

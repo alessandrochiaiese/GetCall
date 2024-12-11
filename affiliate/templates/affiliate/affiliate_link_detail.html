@@ -32,7 +32,7 @@
         async function fetchAffiliateLinkDetail() {
             const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
             try {
-                const response = await fetch(`http://${window.location.host}/api/v0/affiliate/links/${id}/`);
+                const response = await fetch(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/links/${id}/`);
                 const affiliate = await response.json();
                 const detailList = document.getElementById('affiliateLinkDetail');
                 const details = `

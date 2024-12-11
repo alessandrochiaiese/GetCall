@@ -48,7 +48,7 @@
     let allAffiliates = []; // Store all affiliate data
     async function fetchAffiliateCampaigns() {
         try {
-            const response = await fetch(`http://${window.location.host}/api/v0/affiliate/campaigns/`);
+            const response = await fetch(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/campaigns/`);
             allAffiliates = await response.json();
             populateAffiliateTable(affiliates); 
             
@@ -125,7 +125,7 @@
 
     function saveAffiliateChanges(id) {
         const updatedData = getFormData('editModal');
-        fetch(`http://${window.location.host}/api/v0/affiliate/campaigns/${id}/`, {
+        fetch(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/campaigns/${id}/`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedData),
@@ -143,12 +143,12 @@
 
     // Define the navigateTo function
     function navigateToDetail(id) {
-        const url = `http://${window.location.host}/affiliate/audits/${id}/`; // Adjust the URL pattern to match your Django view
+        const url = `${window.location.protocol}://${window.location.host}/affiliate/audits/${id}/`; // Adjust the URL pattern to match your Django view
         window.location.href = url; // Navigate to the URL
     }
 
     function deleteAffiliate(id) {
-        fetch(`http://${window.location.host}/api/v0/affiliate/campaigns/${id}/`, {
+        fetch(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/campaigns/${id}/`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         })
@@ -162,7 +162,7 @@
 
     function saveNewAffiliate() {
         const newAffiliate = getFormData('createModal');
-        fetch(`http://${window.location.host}/api/v0/affiliate/campaigns/`, {
+        fetch(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/campaigns/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newAffiliate),

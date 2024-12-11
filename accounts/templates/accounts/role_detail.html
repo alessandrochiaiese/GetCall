@@ -16,7 +16,7 @@
         async function fetchAccountRoleDetail() {
             const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
             try {
-                const response = await fetch(`http://${window.location.host}/api/v0/account/roles/${id}/`);
+                const response = await fetch(`${window.location.protocol}://${window.location.host}/api/v0/account/roles/${id}/`);
                 const account = await response.json();
                 const detailList = document.getElementById('accountRoleDetail');
                 const details = `

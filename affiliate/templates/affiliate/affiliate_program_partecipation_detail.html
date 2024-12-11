@@ -27,7 +27,7 @@
     let allAffiliates = []; // Store all affiliate data
     async function fetchAffiliateProgramPartecipationDetail(id) {
         try {
-            const response = await fetch(`http://${window.location.host}/api/v0/affiliate/programs/${id}/partecipations/${id}/`);
+            const response = await fetch(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/programs/${id}/partecipations/${id}/`);
             const affiliate = await response.json();
             const detailList = document.getElementById('affiliateProgramPartecipationDetail');
             const details = `

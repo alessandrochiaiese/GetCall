@@ -177,7 +177,7 @@
         var programId = $(this).data('program-id');
         var programPartecipationId = $(this).data('partecipation-id');
         var campaignId = $(this).data('campaign-id');
-        $.post(`http://${window.location.host}/api/v0/affiliate/progrmas/${program_id}/partecipations/${partecipation_id}/`, { campaign_id: campaignId }, function(response) {
+        $.post(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/progrmas/${program_id}/partecipations/${partecipation_id}/`, { campaign_id: campaignId }, function(response) {
             if (response.success) {
                 alert('Partecipato con successo!');
             } else {

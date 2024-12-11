@@ -746,7 +746,7 @@ class RegisterView(View):
                 status="active",
                 referred_user_count=0,
                 expiry_date=request.POST.get('expiry_date'),
-                unique_url=request.get_host() + '/referral-code/' + code + '/'#,
+                unique_url=request.build_absolute_uri("/referral-code/" + code + "/"), # request.get_host() + '/referral-code/' + code + '/'#,
                 #campaign_source=campaign_source,  # Now we ensure it's not None
                 #campaign_medium=campaign_medium
             )

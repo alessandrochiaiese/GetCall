@@ -16,7 +16,7 @@
         async function fetchAccountUserDetail() {
             const id = getAffiliateIdFromUrl(); // Ottieni l'ID dinamicamente
             try {
-                const response = await fetch(`http://${window.location.host}/api/v0/accounts/users/${id}/`);
+                const response = await fetch(`${window.location.protocol}://${window.location.host}/api/v0/accounts/users/${id}/`);
                 const account = await response.json();
                 const detailList = document.getElementById('accountUserDetail');
                 const details = `
