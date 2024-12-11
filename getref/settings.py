@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import mimetypes
-
-from ordered_set import T
+ 
 mimetypes.add_type("text/javascript", ".js' %}", True)
  
 import os
