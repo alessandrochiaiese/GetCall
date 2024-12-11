@@ -2,7 +2,7 @@
 {% extends "dashboard/layout.html" %}
 {% load static %}
 
-{% block title %}Dashboard - Referred Master Accounts {% endblock %}
+{% block title %}Dashboard - Referred Incomplete Registrations{% endblock %}
 
 {% block styles %}
 <!-- CSS Plugin e Custom -->
@@ -19,7 +19,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="section-title">My Master Accounts</h4>
+                <h4 class="section-title">My incomplete registrations</h4>
                 <table class="table table-striped" id="user-table">
                     <thead>
                         <tr>
@@ -31,7 +31,7 @@
                         </tr>
                     </thead>
                     <tbody id="user-table-tbody ">
-                        {% for referred_user in referred_leveled_users %}
+                        {% for referred_user in incomplete_registrations %}
                         <tr>
                             <th>{{ referred_user.first_name }}</th>
                             <th>{{ referred_user.last_name }}</th>

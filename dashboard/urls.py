@@ -3,35 +3,40 @@ from django.conf.urls.static import static
 from django.urls import include, path, re_path as url
  
 from getref import settings   
-from dashboard.views import *
+from dashboard.utils import *
+    
+from django.contrib.auth import views as auth_views 
+from dashboard.forms import * 
+from dashboard.views.views_accounts import (
+    LandingPageView,
+    LoginView,
+    CustomLoginView,
+    ReferralRedirectView, ResetPasswordView, ChangePasswordView, RegisterView
+)
+from dashboard.views.views_profile import (
 
-from django.contrib.auth import views as auth_views
-from dashboard.views import *
-
-from dashboard.forms import *
-from django.urls import path
-from .views import (
+    ProfileView, UserProfileDataView,
+)
+from dashboard.views.views_dashboard import (
     HomeView,
+    IncompleteRegistrationsView,
+    InvestorAccountsView,
+    MasterAccountsView,
+    MyIBsView,
+    ParticipateCampaignView,
+    WithdrawalView,
+)
+from dashboard.views.views_kit_template import (
     ChartJSView,
     DocumentationView,
     BasicElementsView,
     IconsView,
     Error400View,
     Error404View,
-    LoginView,
-    RegisterView,
     TableView,
     DropdownsView,
     TypographyView,
-    WithdrawalView,
 )
-
-from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
-from django.urls import include, path, re_path as url
-from dashboard.views import CustomLoginView, ResetPasswordView, ChangePasswordView, ProfileView, UserProfileDataView, RegisterView
-from dashboard.forms import LoginForm
-from getref import settings  
 
 """urlpatterns = [
     #path('', home, name='core-home'),
@@ -61,41 +66,22 @@ from getref import settings
 ] + static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)"""
 
 
-from django.urls import path
-from .views import (
-    AddItemToOrderView,
-    HomeView,
-    LandingPageView,
-    OrderCreateView,
-    #OrderView,
-    ProductCreateView,
-    ProductDetailView,
-    ProductListView,
-    ProductUpdateView,
-    ReferralRedirectView,
-    RegisterView,
-    CustomLoginView,
-    ResetPasswordView,
-    ChangePasswordView,
-    ProfileView,
-    UserProfileDataView,
-    ParticipateCampaignView,
-    UserReferredLevelView,
-    get_user_table,
-    track_referral_code,
-)
+from django.urls import path 
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    # Pagina principale
+    ## dashboard
     path('', HomeView.as_view(), name='core_home'),
-    path('accounts/master', MasterAccountsView.as_view(), name='master_accounts'),
-    path('accounts/investor', InvestorAccountsView.as_view(), name='investor_accounts'),
-    path('accounts/incomplete', IncompleteRegistrationsView.as_view(), name='incomplete_registrations'),
+    path('dashboard/', HomeView.as_view(), name='dashboard'),
+    path('accounts/master/', MasterAccountsView.as_view(), name='master_accounts'),
+    path('accounts/investor/', InvestorAccountsView.as_view(), name='investor_accounts'),
+    path('accounts/incomplete/', IncompleteRegistrationsView.as_view(), name='incomplete_registrations'),
+    path('my-ibs/', MyIBsView.as_view(), name='my_ibs'),
 
     # get users referred with level
     #path('get-level-users/', UserReferredLevelView.as_view(), name='get_user_table'), #get_user_table, name='get_user_table'),
 
+    ## accounts
     # Pagina di atterraggio
     path('landing/', LandingPageView.as_view(), name='core_landing_page'),
     
@@ -123,7 +109,7 @@ urlpatterns = [
          auth_views.PasswordResetCompleteView.as_view(template_name='core/core_password_reset_complete.html'),
          name='core_password_reset_complete'),
 
-    # Profilo utente
+    ## profile
     path('profile/', ProfileView.as_view(), name='core_profile'),
     
     # Dati profilo utente (API JSON)
@@ -132,21 +118,9 @@ urlpatterns = [
     # Partecipazione a campagne di referral
     path('campaign/participate/', ParticipateCampaignView.as_view(), name='core_participate_campaign'),
     
-    path('product/list/', ProductListView.as_view(), name='product_list'),
-    path('product/create/', ProductCreateView.as_view(), name='create_product'),
-    path('product//<int:order_id>/update/', ProductUpdateView.as_view(), name='create_product'),
-    path('product/<int:order_id>/', ProductDetailView.as_view(), name='product_detail'),
-    
-    path('order/create/', OrderCreateView.as_view(), name='create_order'),
-    path('order/<int:order_id>/add_item/', AddItemToOrderView.as_view(), name='add_item_to_order'),
-    
-    #path("order/<int:pk>/", OrderView.as_view(), name="order_detail"),
+    path('withdrawals/', WithdrawalView.as_view(), name='withdrawals'),
 
-    path('track/<int:referral_code>/', track_referral_code, name=''),
-    
-
-    #path('', HomeView.as_view(), name='home'),
-    path('home/', HomeView.as_view(), name='home'),
+    ## kit_template visible only for admin
     path('charts/chartjs/', ChartJSView.as_view(), name='charts'),
     path('documentation/', DocumentationView.as_view(), name='documentation'),
     path('forms/basic_elements/', BasicElementsView.as_view(), name='forms_basic_elements'),
@@ -159,10 +133,11 @@ urlpatterns = [
     path('ui-features/buttons/', DropdownsView.as_view(), name='ui_features_buttons'),
     path('ui-features/dropdowns/', DropdownsView.as_view(), name='ui_features_dropdowns'),
     path('ui-features/typography/', TypographyView.as_view(), name='ui_features_typography'),
-    path('withdrawals/', WithdrawalView.as_view(), name='withdrawals'),
     
+    ## api
     path('api/v0/', include('dashboard.api.urls'), name='api_profile'),
 
+    ## social django
     url(r'^oauth/', include('social_django.urls', namespace='social')),
 
 ]+ static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

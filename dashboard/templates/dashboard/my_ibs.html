@@ -2,7 +2,7 @@
 {% extends "dashboard/layout.html" %}
 {% load static %}
 
-{% block title %}Dashboard - Referred Incomplete Registrations{% endblock %}
+{% block title %}Dashboard - Referred IBs {% endblock %}
 
 {% block styles %}
 <!-- CSS Plugin e Custom -->
@@ -19,19 +19,19 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="section-title">I miei invitati</h4>
+                <h4 class="section-title">My IBs</h4>
                 <table class="table table-striped" id="user-table">
                     <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>Cognome</th>
+                            <th>Name</th>
+                            <th>Last Name</th>
                             <th>Username</th>
                             <th>Level</th>
                             <th>Date Joined</th>
                         </tr>
                     </thead>
                     <tbody id="user-table-tbody ">
-                        {% for referred_user in referred_leveled_users %}
+                        {% for referred_user in my_ibs %}
                         <tr>
                             <th>{{ referred_user.first_name }}</th>
                             <th>{{ referred_user.last_name }}</th>

@@ -2,8 +2,13 @@ from accounts.models.user import User
 import stripe
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponse
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import DetailView, ListView
 from django.views.generic.base import TemplateView
+
+
+from .models import Price, Product
 
 
 class HomePageView(TemplateView):
@@ -200,3 +205,152 @@ def stripe_webhook(request):
         # TODO: run some custom code here
 
     return HttpResponse(status=200)
+
+
+
+#####################
+# Product and Order #
+#####################
+ 
+"""
+def create_product(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')  # Redirect to the product list page
+    else:
+        form = ProductForm()
+    return render(request, 'commerce/create_product.html', {'form': form})
+
+
+
+def create_order(request):
+    if request.method == "POST":
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order = form.save()
+            # Optionally, calculate the total price here
+            order.calculate_total_price()
+            return redirect('order_detail', order_id=order.id)
+    else:
+        form = OrderForm()
+    return render(request, 'commerce/create_order.html', {'form': form})
+
+
+
+def add_item_to_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.method == "POST":
+        form = OrderItemForm(request.POST)
+        if form.is_valid():
+            order_item = form.save(commit=False)
+            order_item.order = order
+            order_item.save()
+            order.calculate_total_price()  # Recalculate the total price of the order
+            return redirect('order_detail', order_id=order.id)
+    else:
+        form = OrderItemForm()
+    return render(request, 'commerce/add_item_to_order.html', {'form': form, 'order': order})
+"""
+
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from .models import Product
+from .forms import ProductForm
+from django.views.generic import ListView, DetailView
+
+class ProductListView(ListView):
+    model = Product  # Modello associato alla vista
+    template_name = 'commerce/list_product.html'
+    context_object_name = 'products'  # Nome del contesto passato al template
+    paginate_by = 10  # Opzionale, per aggiungere la paginazione
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Aggiungi filtri personalizzati, se necessario
+        return queryset.order_by('-created_at')  # Esempio: ordina per data di creazione
+
+class ProductDetailView(DetailView):
+    template_name = 'commerce/detail_product.html'
+
+class ProductUpdateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'commerce/ipdate_product.html'
+    success_url = reverse_lazy('product_list')  # Redirige alla lista dei prodotti dopo il salvataggio
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'commerce/create_product.html'
+    success_url = reverse_lazy('product_list')  # Redirige alla lista dei prodotti dopo il salvataggio
+
+    def form_valid(self, form):
+        # Puoi aggiungere logica personalizzata prima di salvare il form, se necessario
+        return super().form_valid(form)
+
+from django.urls import reverse
+from django.views.generic.edit import CreateView
+from .models import Order
+from .forms import OrderForm
+
+class OrderCreateView(CreateView):
+    model = Order
+    form_class = OrderForm
+    template_name = 'commerce/create_order.html'
+
+    def form_valid(self, form):
+        # Aggiungi logica per il calcolo del totale dell'ordine
+        order = form.save()
+        order.calculate_total_price()
+        return redirect('order_detail', order_id=order.id)
+
+    def get_success_url(self):
+        # Puoi anche usare un redirect dinamico come in questo caso
+        return reverse('order_detail', kwargs={'order_id': self.object.id})
+
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
+from django.views.generic.edit import FormView
+from .models import Order, OrderItem
+from .forms import OrderItemForm
+
+class AddItemToOrderView(FormView):
+    form_class = OrderItemForm
+    template_name = 'commerce/add_item_to_order.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.order = get_object_or_404(Order, id=kwargs['order_id'])
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        order_item = form.save(commit=False)
+        order_item.order = self.order
+        order_item.save()
+        
+        # Ricalcola il prezzo totale dell'ordine
+        self.order.calculate_total_price()
+
+        return redirect('order_detail', order_id=self.order.id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order'] = self.order
+        return context
+
+
+class ProductListView(ListView):
+    model = Product
+    context_object_name = "products"
+    template_name = "payments/product_list.html"
+
+class ProductDetailView(DetailView):
+    model = Product
+    context_object_name = "product"
+    template_name = "payments/product_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductDetailView, self).get_context_data()
+        context["prices"] = Price.objects.filter(product=self.get_object())
+        return context
