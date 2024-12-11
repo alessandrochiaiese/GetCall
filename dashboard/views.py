@@ -474,8 +474,7 @@ from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator 
 from referral.models import *
 from referral.forms import *
-from dashboard.forms import *
-from getref.settings import HOSTNAME
+from dashboard.forms import * 
  
 
 User = get_user_model()
