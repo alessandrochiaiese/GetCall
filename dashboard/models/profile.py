@@ -19,7 +19,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=64, null=True, blank=True)
     street = models.CharField(max_length=64, null=True, blank=True)
     CAP = models.CharField(max_length=64, null=True, blank=True)
-    phone_number = models.CharField(max_length=13, unique=True)
+    phone_number = models.CharField(max_length=13, blank=True, null=True, unique=True)
 
 
     # Differenet kind of profile (Business, Buyer, Base)
