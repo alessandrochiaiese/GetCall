@@ -441,7 +441,7 @@ class MyIBsView(TemplateView):
         referrer_code = None
         # Get the referral code for the referrer
         try:
-            referrer = ReferralCode.objects.filter(user=referral.referrer).first()
+            referrer = ReferralCode.objects.filter(user=referral.referrer.id).first()
         except Exception:
             referrer = None
 
@@ -499,13 +499,13 @@ class MyIBsView(TemplateView):
             referred_user = User.objects.filter(user=referred_id).first()
             referred = Profile.objects.filter(user=referred_user).first()
             profile = None
-            transactions = ReferralTransaction.objects.filter(referred_user=referred)
+            transactions = ReferralTransaction.objects.filter(referred_user=referred.id)
             if len(transactions)>0:
                 investor_accounts.append(referred_item)
         print(tree_referred)
         print(list_referred)
         print(investor_accounts)
-        context['my_ibs'] = list(set([*investor_accounts, *referreds]))
+        context['my_ibs'] = investor_accounts+referreds
         
         return context
     
