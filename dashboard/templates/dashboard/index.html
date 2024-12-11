@@ -48,8 +48,8 @@
 </div>
 
 <!-- Box Code Referral -->
-<div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
+<div class="row mt-4">
+    <div class="col-md-6 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Il Tuo Code Referral</h4>
@@ -58,7 +58,7 @@
                         readonly>
                     <button class="btn btn-success mt-3" id="copy-code">Copia Codice</button>
                 </div>
-                <a href="/track/{{ user.profile.referral_code }}" id="referral-code-url" class="btn btn-primary mt-3"
+                <a href="{{ user.profile.referral_code.unique_url }}" id="referral-code-url" class="btn btn-primary mt-3"
                     target="_blank">
                     Condividi e Usa
                 </a>
@@ -67,6 +67,39 @@
     </div>
 </div>
 
+<!-- Statistiche Generali e Performance Referral -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="section-title">Statistiche del Profilo</h4>
+                <p class="profile-stat">Totale Guadagni:</p>
+                <p id="total-commission" class="profile-stat-value">€0.00</p>
+                <p class="profile-stat">Referral Attivi:</p>
+                <p id="active-referrals" class="profile-stat-value">0</p>
+                <p class="profile-stat">Commissioni Totali:</p>
+                <p id="total-rewards" class="profile-stat-value">€0.00</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sezione Codice Referral -->
+<!--  
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="section-title">Il Tuo Codice Referral</h4>
+                <p class="profile-stat">Codice Referral:</p>
+                <p id="referral-code" class="profile-stat-value">{{ user.referral_code.code }}</p>
+                <p class="profile-stat">Link Referral Unico:</p>
+                <input type="text" id="referral-link" class="form-control" value="{{ user.referral_code.unique_url }}"
+                    readonly>
+                <button type="button" id="copy-code" class="copy-link-btn btn-lg">Copia Link</button>
+            </div>
+        </div>
+    </div>
+</div>-->
 
 <!-- Sezione per gli Utenti Invitati -->
 <!-- Si puo cancellare se funziona la tabella -->
@@ -121,41 +154,7 @@
     </div>
 </div>
 
-
-<!-- Statistiche Generali e Performance Referral -->
-<div class="row mt-3">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="section-title">Statistiche del Profilo</h4>
-                <p class="profile-stat">Totale Guadagni:</p>
-                <p id="total-commission" class="profile-stat-value">€0.00</p>
-                <p class="profile-stat">Referral Attivi:</p>
-                <p id="active-referrals" class="profile-stat-value">0</p>
-                <p class="profile-stat">Commissioni Totali:</p>
-                <p id="total-rewards" class="profile-stat-value">€0.00</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Sezione Codice Referral -->
-<div class="row mt-4">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="section-title">Il Tuo Codice Referral</h4>
-                <p class="profile-stat">Codice Referral:</p>
-                <p id="referral-code" class="profile-stat-value">{{ user.referral_code.code }}</p>
-                <p class="profile-stat">Link Referral Unico:</p>
-                <input type="text" id="referral-link" class="form-control" value="{{ user.referral_code.unique_url }}"
-                    readonly>
-                <button type="button" id="copy-link-btn" class="copy-link-btn btn-lg">Copia Link</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+ 
 <!-- Dettagli Referral e Programmi -->
 <div class="row mt-4">
     <div class="col-md-6">
@@ -183,7 +182,7 @@
 
 <!-- Attività Recenti -->
 <div class="row mt-5">
-    <div class="col-md-6">
+    <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="section-title">Attività Recenti</h4>
@@ -204,20 +203,7 @@
         </div>
     </div>
 </div>
-
-<!-- Box Attività Recenti -->
-<div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Attività Recenti</h4>
-                <div id="recent-activities">
-                    <!-- Qui saranno mostrate le attività recenti -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+ 
 
 <!-- Modale per Creare un Programma -->
 <div class="modal fade" id="createProgramModal" tabindex="-1" role="dialog" aria-labelledby="createProgramModalLabel"
@@ -328,7 +314,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Carica i dati tramite fetch
-        /*
         loadReferralData();
         async function loadReferralData() {
             try {
@@ -391,11 +376,11 @@
                 console.error('Errore nel caricamento dei dati di referral:', error);
             }
         }
-        */
 
         // Carica i dati del profilo
         loadReferralData();
 
+        /*F
         // Funzione per caricare i dati tramite chiamate API
         function loadReferralData() {
             let referral_code = document.getElementById('referral-code');
@@ -408,6 +393,7 @@
                 referral_code_url.setAttribute('href', `${window.location.protocol}//${window.location.host}/referral-code/${data.referral_code}/`);
             });
         }
+        */
 
         // Gestione creazione programma
         document.getElementById('createProgramForm').addEventListener('submit', async function (e) {
@@ -437,6 +423,27 @@
             }
         });
 
+    // Funzione per copiare il link referral
+    $('#copy-code').click(function() {
+        var copyText = $('#referral-link')[0];
+        copyText.select();
+        document.execCommand('copy');
+        alert('Link referral copiato!');
+    });
+
+    // Partecipare a una campagna
+    $(document).on('click', '.participate-btn', function() {
+        var programId = $(this).data('program-id');
+        var programPartecipationId = $(this).data('partecipation-id');
+        var campaignId = $(this).data('campaign-id');
+        $.post(`${window.location.protocol}://${window.location.host}/api/v0/affiliate/progrmas/${program_id}/partecipations/${partecipation_id}/`, { campaign_id: campaignId }, function(response) {
+            if (response.success) {
+                alert('Partecipato con successo!');
+            } else {
+                alert('Errore durante la partecipazione.');
+            }
+        });
+    });
         // Gestione creazione campagna
         document.getElementById('createCampaignForm').addEventListener('submit', async function (e) {
             e.preventDefault();

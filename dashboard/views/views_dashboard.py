@@ -290,9 +290,9 @@ class InvestorAccountsView(TemplateView):
         for referred_item in list_referred:
             referred_id = referred_item.get('id')
             referred_user = User.objects.filter(user=referred_id).first()
-            referred = Profile.objects.filter(user=referred_user).first()
+            referred = Profile.objects.filter(user=referred_user.id).first()
             profile = None
-            transactions = ReferralTransaction.objects.filter(referred_user=referred)
+            transactions = ReferralTransaction.objects.filter(referred_user=referred.id)
             if len(transactions)>0:
                 investor_accounts.append(referred_item)
         print(tree_referred)
@@ -334,7 +334,7 @@ class IncompleteRegistrationsView(TemplateView):
         referrer_code = None
         # Get the referral code for the referrer
         try:
-            referrer = ReferralCode.objects.filter(user=referral.referrer).first()
+            referrer = ReferralCode.objects.filter(user=referral.referrer.id).first()
         except Exception:
             referrer = None
 
@@ -363,7 +363,7 @@ class IncompleteRegistrationsView(TemplateView):
         referral = None
         try:
             # Recupera tutti i Referral dell'utente autenticato
-            referral = Referral.objects.filter(referrer=user).first() 
+            referral = Referral.objects.filter(referrer=user.id).first() 
             print(referral)
             
         except Exception:
@@ -390,9 +390,9 @@ class IncompleteRegistrationsView(TemplateView):
         for referred_item in list_referred:
             referred_id = referred_item.get('id')
             referred_user = User.objects.filter(user=referred_id).first()
-            referred = Profile.objects.filter(user=referred_user).first()
+            referred = Profile.objects.filter(user=referred_user.id).first()
             profile = None
-            profile = Profile.objects.filter(user=referred).first()
+            profile = Profile.objects.filter(user=referred.id).first()
             if not profile or \
                 profile.birth_date == None or \
                 profile.city == None or \
