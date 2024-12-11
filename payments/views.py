@@ -1,15 +1,23 @@
 from accounts.models.user import User
-import stripe
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, FormView 
 from django.views.generic.base import TemplateView
 
 
-from .models import Price, Product
+from django.shortcuts import render, redirect
+from django.contrib import messages 
+from django.urls import reverse_lazy, reverse
+   
+from django.shortcuts import get_object_or_404, redirect 
+from .forms import OrderItemForm, OrderForm, ProductForm, PaymentMethodForm
 
+from .models import Order, OrderItem, Price, Product, PaymentMethod
+
+import stripe
 
 class HomePageView(TemplateView):
     template_name = 'payments/home.html'
@@ -254,12 +262,6 @@ def add_item_to_order(request, order_id):
     return render(request, 'commerce/add_item_to_order.html', {'form': form, 'order': order})
 """
 
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
-from .models import Product
-from .forms import ProductForm
-from django.views.generic import ListView, DetailView
-
 class ProductListView(ListView):
     model = Product  # Modello associato alla vista
     template_name = 'commerce/list_product.html'
@@ -290,11 +292,6 @@ class ProductCreateView(CreateView):
         # Puoi aggiungere logica personalizzata prima di salvare il form, se necessario
         return super().form_valid(form)
 
-from django.urls import reverse
-from django.views.generic.edit import CreateView
-from .models import Order
-from .forms import OrderForm
-
 class OrderCreateView(CreateView):
     model = Order
     form_class = OrderForm
@@ -309,12 +306,6 @@ class OrderCreateView(CreateView):
     def get_success_url(self):
         # Puoi anche usare un redirect dinamico come in questo caso
         return reverse('order_detail', kwargs={'order_id': self.object.id})
-
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
-from django.views.generic.edit import FormView
-from .models import Order, OrderItem
-from .forms import OrderItemForm
 
 class AddItemToOrderView(FormView):
     form_class = OrderItemForm
@@ -354,3 +345,47 @@ class ProductDetailView(DetailView):
         context = super(ProductDetailView, self).get_context_data()
         context["prices"] = Price.objects.filter(product=self.get_object())
         return context
+    
+
+
+    
+def payment(request):
+    form = PaymentMethodForm(request.POST or None)
+
+    if request.method == "POST":
+        if form.is_valid():
+            payment = form.save(commit=False)
+            payment.user = request.user
+            payment.save()
+
+            # Create a Stripe PaymentIntent
+            stripe.api_key = settings.STRIPE_PRIVATE_KEY
+            intent = stripe.PaymentIntent.create(
+                amount=int(payment.amount * 100),
+                currency='usd',
+                metadata={'payment_id': payment.id}
+            )
+
+            # Redirect to the payment processing view
+            return redirect('process_payment', intent.client_secret)
+
+    context = {'form': form}
+    return render(request, 'payments/payment.html', context)
+
+def process_payment(request, client_secret):
+    if request.method == "POST":
+        stripe.api_key = settings.STRIPE_PRIVATE_KEY
+        intent = stripe.PaymentIntent.confirm(client_secret)
+
+        if intent.status == 'succeeded':
+            # Update the Payment model
+            payment_id = intent.metadata['payment_id']
+            payment = PaymentMethod.objects.get(id=payment_id)
+            payment.paid = True
+            payment.save()
+
+            messages.success(request, 'Payment successful!')
+            return redirect('success')
+
+    context = {'client_secret': client_secret}
+    return render(request, 'payments/process_payment.html', context)

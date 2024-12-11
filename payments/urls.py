@@ -26,6 +26,9 @@ urlpatterns = [
     path('success/', SuccessView.as_view()),
     path('cancelled/', CancelledView.as_view()),
 
+    path('payment/', views.payment, name='payment'),
+    path('process_payment/<str:client_secret>/', views.process_payment, name='process_payment'),
+    
     #path("", ProductListView.as_view(), name="product-list"),
     #path("<int:pk>/", ProductDetailView.as_view(), name="product-detail"),
 

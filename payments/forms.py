@@ -1,5 +1,7 @@
 from django import forms
 
+from payments.models.payment_method import PaymentMethod
+
 from .models import Product, Order, OrderItem
 
 class ProductForm(forms.ModelForm):
@@ -26,4 +28,13 @@ class OrderItemForm(forms.ModelForm):
         widgets = {
             'product': forms.Select(attrs={'class': 'form-control'}),
             'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+       
+class PaymentMethodForm(forms.ModelForm):
+    class Meta:
+        model = PaymentMethod
+        fields = ('amount', 'description',)
+        widgets = {
+            'amount': forms.NumberInput(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
         }
