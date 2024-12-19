@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from payments.models.product_tag import ProductTag
 from payments.models.utils import get_image_filename
-
+"""
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -15,7 +15,7 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name
-
+"""
 class Product(models.Model):
     name = models.CharField(max_length=200)
     #tags = models.ManyToManyField(ProductTag, blank=True, related_name="tags")

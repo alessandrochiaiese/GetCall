@@ -3,7 +3,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from accounts.models.region import Region
+from dashboard.models.region import Region
 
 User = get_user_model()
 

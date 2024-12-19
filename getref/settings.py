@@ -229,7 +229,7 @@ SOCIAL_AUTH_GITHUB_SECRET = str(config('GITHUB_SECRET', ""))
 # social auth configs for google
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = str(config('GOOGLE_KEY', ""))
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = str(config('GOOGLE_SECRET', ""))
-
+"""
 # email configs
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -240,13 +240,13 @@ EMAIL_HOST_PASSWORD = str(config('EMAIL_PASSWORD', ""))
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
-
+"""
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-if DEBUG:
+"""
+if not DEBUG:
     # Security settings 
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
@@ -255,12 +255,12 @@ if DEBUG:
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     CSRF_TRUSTED_ORIGINS = [
-        'getxall.pythonanywhere.com',
+        'getcall.pythonanywhere.com',
     ]
 
     # Aggiungere automaticamente lo schema a ogni dominio
     CSRF_TRUSTED_ORIGINS = [f'https://{origin}' for origin in CSRF_TRUSTED_ORIGINS]
-
+"""
 OAUTH2_PROVIDER = {
     'ACCESS_TOKEN_EXPIRE_SECONDS': 36000, 
     # this is the list of available scopes
@@ -299,16 +299,10 @@ SWAGGER_SETTINGS = {
             }
         }
     },
-    'OAUTH2_REDIRECT_URL': 'http://localhost/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html' \
-        if DEBUG is True \
-        else 'https://getcall.pythonanywhere.com/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html',
+    'OAUTH2_REDIRECT_URL': 'http://localhost/static/drf-yasg/swagger-ui-dist/oauth2-redirect.html',
     'OAUTH2_CONFIG': {
-        'clientId':  OAUTH2_CLIENT_ID \
-            if DEBUG is True \
-            else 'GetCallClientId',
-        'clientSecret': OAUTH2_CLIENT_SECRET\
-            if DEBUG is True \
-            else 'GetCallClientSecret',
+        'clientId':  'GetCallClientId',
+        'clientSecret': 'GetCallClientSecret',
         'appName': 'GetCall'
 
     },

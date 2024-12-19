@@ -1,7 +1,7 @@
 
 from django.db import models
 
-from accounts.models.country import Country 
+from dashboard.models.country import Country 
 
 class AffiliateProgram(models.Model):
     name = models.CharField(max_length=255)

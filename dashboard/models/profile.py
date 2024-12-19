@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 
-from affiliate.models.affiliate_transaction import AffiliateTransaction
+from referral.models.referral_transaction import ReferralTransaction
 import payments
 from payments.models.payment_method import PaymentMethod
 
@@ -10,6 +10,7 @@ from payments.models.payment_method import PaymentMethod
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
+    # User: username, first_name, last_name, email, is_staff, is_active, date_joined
     user = models.OneToOneField(User, on_delete=models.CASCADE) 
     avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
     bio = models.TextField(max_length=1024, null=True, blank=True)
@@ -35,7 +36,7 @@ class Profile(models.Model):
     
     
     # buyer
-    transactions = models.ManyToManyField(AffiliateTransaction, related_name='txns')
+    transactions = models.ManyToManyField(ReferralTransaction, related_name='txns')
     payment_method = models.OneToOneField(PaymentMethod, blank=True, null=True, on_delete=models.CASCADE, related_name='payment')
 
 

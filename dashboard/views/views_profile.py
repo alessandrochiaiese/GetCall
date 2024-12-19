@@ -30,89 +30,55 @@ class ProfileView(UpdateView):
         # Ritorna l'oggetto corrispondente all'utente autenticato
         return self.request.user
 
-    """def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        profile = Profile.objects.filter(user=self.request.user).first()
-        referral_code = ReferralCode.objects.filter(user=self.request.user).first()
-        referral = Referral.objects.filter(referred=self.request.user).first()
-        referrer = None
-        try:
-            referrer = ReferralCode.objects.filter(user=referral.referrer).first()
-        except Exception:
-            referrer = None
-            
-        if referrer:
-            referrer_code = referrer.code
-        else:
-            referrer_code = None
-
-        # Recupera il form del profilo
-        context['profile_form'] = UpdateProfileForm(instance=profile)
-
-        # Recupera il codice referral dell'utente
-        try: 
-            context['referral_code'] = referral_code.code
-        except AttributeError:
-            context['referral_code'] = None
-        try: 
-            context['referrer_code'] = referrer_code
-        except AttributeError:
-            context['referrer_code'] = None
-
-        # Recupera gli utenti invitati dall'utente autenticato
-        context['referrals'] = Referral.objects.filter(referrer=self.request.user)
-
-        return context
-
-    """
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Get the user 
-        user=self.request.user#user = User.objects.filter(user=self.request.user).first()
+        # Get the user
+        user = self.request.user
 
         # Get the user's profile
         profile = Profile.objects.filter(user=user).first()
 
         # Get the referral code for the user
         referral_code = ReferralCode.objects.filter(user=user).first()
- 
-        # Get the user's referral information
-        try:
-            referral = Referral.objects.filter(referrer=user).first()
-        except Exception:
-            referrer = None
 
+        # Get the referral where the user is referred
+        referral = None
+        try:
+            referral = Referral.objects.filter(referred=user).first()
+        except Exception as e:
+            print(e)
+
+        
+        # Initialize referrer and referrer_code
         referrer = None
         referrer_code = None
-        # Get the referral code for the referrer
-        try:
-            referrer = ReferralCode.objects.filter(user=referral.referrer).first()
-        except Exception:
-            referrer = None
 
-        # If the referrer exists, get the referrer code
-        if referrer:
-            referrer_code = referrer.code
+        # Check if referral exists
+        if referral:
+            # If the user has been referred, get the referrer and their referral code
+            referrer = referral.referrer  # This is the user who invited the current user
+            referrer_code = ReferralCode.objects.filter(user=referrer).first()  # Get the referrer code
+
+            # Debugging print to see the referrer and referred information
+            print(f"Referrer: {referrer}, Referred: {referral.referred}")
+
         else:
-            referrer_code = None
+            # If no referral is found, handle it gracefully
+            print("No referral found for this user.")
 
         # Add the profile form to the context
         context['profile_form'] = UpdateProfileForm(instance=profile)
 
+        # Add the profile form to the context
+        context['profile_base_form'] = UpdateBaseProfileForm(instance=profile)
+
         # Add the referral code to the context
-        try: 
-            context['referral_code'] = referral_code.code
-        except AttributeError:
-            context['referral_code'] = None
-        
+        context['referral_code'] = referral_code.code if referral_code else None
+
         # Add the referrer code to the context
-        try: 
-            context['referrer_code'] = referrer_code
-        except AttributeError:
-            context['referrer_code'] = None
+        context['referrer_code'] = referrer_code.code if referrer_code else None
+
 
         
         # Retrieve all referrals made by the logged-in user
@@ -151,22 +117,35 @@ class ProfileView(UpdateView):
         return context
     
     def form_valid(self, form):
-        user=self.request.user
+        user = self.request.user
         profile = Profile.objects.filter(user=user).first()
-        # Gestisce la parte relativa al profilo separatamente
-        profile_form = UpdateProfileForm(self.request.POST, self.request.FILES, instance=profile)
         
+        if not profile:
+            messages.error(self.request, 'Profile not found for the current user.')
+            return self.form_invalid(form)
+
+        # Gestisci separatamente il profilo
+        profile_form = UpdateProfileForm(self.request.POST, self.request.FILES, instance=profile)
+        profile_base_form = UpdateBaseProfileForm(self.request.POST, instance=profile)
+
         if not profile_form.is_valid():
-            # Se il form del profilo non è valido, ritorna un errore
+            print("Profile Form Errors:", profile_form.errors)
             messages.error(self.request, 'There was an error updating your profile.')
             return self.form_invalid(form)
 
-        # Salva entrambi i form
-        form.save()  # Salva i dati utente
-        profile_form.save()  # Salva i dati del profilo
+        if not profile_base_form.is_valid():
+            print("Profile Base Form Errors:", profile_base_form.errors)
+            messages.error(self.request, 'There was an error updating your profile.')
+            return self.form_invalid(form)
 
-        # Messaggio di successo
+        # Salvataggio dei form
+        profile_form.save()  # Salva i dati del profilo
+        profile_base_form.save()  # Salva i dati del profilo base
+        form.save()  # Salva i dati utente
+
+        # Aggiungi un messaggio di successo
         messages.success(self.request, 'Your profile and account information were updated successfully.')
+
         return super().form_valid(form)
 
 @method_decorator(login_required, name='dispatch')

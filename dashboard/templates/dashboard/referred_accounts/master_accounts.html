@@ -31,15 +31,15 @@
                         </tr>
                     </thead>
                     <tbody id="user-table-tbody ">
-                        {% for referred_user in referred_leveled_users %}
+                        {#% for referred_user in master_account %#}
                         <tr>
-                            <th>{{ referred_user.first_name }}</th>
-                            <th>{{ referred_user.last_name }}</th>
-                            <th>{{ referred_user.username }}</th>
-                            <th>{{ referred_user.level }}</th>
-                            <th>{{ referred_user.date_joined|date:"d/m/Y" }}</th>
+                            <th>{{ master_account.first_name }}</th>
+                            <th>{{ master_account.last_name }}</th>
+                            <th>{{ master_account.username }}</th>
+                            <!--<th>{#{ master_account.level }#}</th>-->
+                            <th>{{ master_account.date_joined|date:"d/m/Y" }}</th>
                         </tr>
-                        {% endfor %}
+                        {#% endfor %#}
                     </tbody>
                 </table>
             </div>

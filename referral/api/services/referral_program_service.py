@@ -4,7 +4,7 @@ from datetime import datetime
 import logging
 
 from typing import List
-from accounts.models.region import Region
+from dashboard.models.region import Region
 from referral.abstracts.test import ReferralCode
 from referral.models import ReferralProgram
 from django.contrib.auth import get_user_model

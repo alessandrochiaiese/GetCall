@@ -93,6 +93,22 @@ class UpdateProfileForm(forms.ModelForm):
         model = Profile
         fields = ['avatar', 'bio']
 
+class UpdateBaseProfileForm(forms.ModelForm):
+    
+    birth_date = forms.DateField(
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        required=False,
+        input_formats=['%Y-%m-%d']  # Formato ISO della data, come "YYYY-MM-DD"
+    )
+    city = forms.CharField(widget=forms.TextInput(attrs={'required': False, 'class': 'form-control'}))
+    street = forms.CharField(widget=forms.TextInput(attrs={'required': False, 'class': 'form-control'}))
+    CAP = forms.CharField(widget=forms.TextInput(attrs={'required': False, 'class': 'form-control'}))
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'required': False, 'class': 'form-control'}))
+    
+    class Meta:
+        model = Profile
+        fields = ['birth_date', 'city', 'street', 'CAP', 'phone_number',]
+
 
 class UpdateBusinessProfileForm(forms.ModelForm):
     avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))

@@ -121,7 +121,7 @@ class MasterAccountsView(TemplateView):
         # Ritorna l'oggetto corrispondente all'utente autenticato
         return self.request.user
     
-    
+    """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -201,7 +201,50 @@ class MasterAccountsView(TemplateView):
         context['referred_leveled_users'] = list_referred
         
         return context
+    """
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Get the user
+        user = self.request.user
+
+        # Get the user's profile
+        profile = Profile.objects.filter(user=user).first()
+
+        # Get the referral code for the user
+        referral_code = ReferralCode.objects.filter(user=user).first()
+
+        # Get the referral where the user is referred
+        referral = None
+        try:
+            referral = Referral.objects.filter(referred=user).first()
+        except Exception as e:
+            print(e)
+
+        
+        # Initialize referrer and referrer_code
+        referrer = None
+        referrer_code = None
+
+        # Check if referral exists
+        if referral:
+            # If the user has been referred, get the referrer and their referral code
+            referrer = referral.referrer  # This is the user who invited the current user
+            referrer_code = ReferralCode.objects.filter(user=referrer).first()  # Get the referrer code
+
+            # Debugging print to see the referrer and referred information
+            print(f"Referrer: {referrer}, Referred: {referral.referred}")
+
+        else:
+            # If no referral is found, handle it gracefully
+            print("No referral found for this user.")
+ 
+        context['master_account'] = referrer
+        
+        return context
+    
+
 @method_decorator(login_required, name='dispatch')
 class InvestorAccountsView(TemplateView):
     model = get_user_model()  # Usa il modello User di default
@@ -285,18 +328,35 @@ class InvestorAccountsView(TemplateView):
         referreds = []
         tree_referred = get_tree_referred(user, level=0)
         list_referred = tree_to_list(tree_referred, referreds)
-        
         investor_accounts = []
+
         for referred_item in list_referred:
+            print(f"Referred Item: {referred_item}")  # Aggiungi un log per verificare il contenuto
+            
             referred_id = referred_item.get('id')
-            referred_user = User.objects.filter(user=referred_id).first()
-            referred = Profile.objects.filter(user=referred_user.id).first()
-            profile = None
-            transactions = ReferralTransaction.objects.filter(referred_user=referred.id)
-            if len(transactions)>0:
-                investor_accounts.append(referred_item)
-        print(tree_referred)
-        print(list_referred)
+            if referred_id is None:
+                print(f"Warning: referred_item has no 'id': {referred_item}")
+                continue  # Vai al prossimo elemento
+            
+            referred_user = User.objects.filter(id=referred_id).first()
+            if referred_user:
+                print(f"Found user: {referred_user}")
+                referred = Profile.objects.filter(user=referred_user).first()
+                
+                if referred:
+                    print(f"Found profile for user: {referred.user}")
+                    print(f"Is buyer for {referred.user}: {referred.is_buyer}")
+                    
+                    transactions = ReferralTransaction.objects.filter(referred_user=referred.user)
+                    print(f"Transactions for {referred.user}: {transactions.count()}")
+                    
+                    if referred.is_buyer: #if transactions.exists() or referred.is_buyer:
+                        investor_accounts.append(referred_item)
+                else:
+                    print(f"Profile not found for user: {referred_user}")
+            else:
+                print(f"User with ID {referred_id} not found.")
+
         print(investor_accounts)
         context['investor_accounts'] = investor_accounts
         
@@ -389,21 +449,24 @@ class IncompleteRegistrationsView(TemplateView):
         incomplete_registrations = []
         for referred_item in list_referred:
             referred_id = referred_item.get('id')
-            referred_user = User.objects.filter(user=referred_id).first()
-            referred = Profile.objects.filter(user=referred_user.id).first()
+            referred_user = User.objects.filter(id=referred_id).first()  # Usa .filter() con .first() per evitare errori
             profile = None
-            profile = Profile.objects.filter(user=referred.id).first()
-            if not profile or \
-                profile.birth_date == None or \
-                profile.city == None or \
-                profile.street == None or \
-                profile.CAP == None or \
-                profile.phone_number == None or \
-                profile.is_business == False or \
-                profile.is_buyer == False:
-                incomplete_registrations.append(referred_item)
-        print(tree_referred)
-        print(list_referred)
+            
+            if referred_user:  # Verifica che l'utente esista
+                referred = Profile.objects.filter(user=referred_user).first()
+                profile = Profile.objects.filter(user=referred.user).first()
+                #if not profile or \
+                if referred.birth_date is None or referred.birth_date == '' or \
+                    referred.city is None or referred.city == '' or \
+                    referred.street is None or referred.street == '' or \
+                    referred.CAP is None or referred.CAP == '' or \
+                    referred.phone_number is None or referred.phone_number == '': # or \
+                    #profile.is_business == False or \
+                    #profile.is_buyer == False:
+                    incomplete_registrations.append(referred_item)
+            else:
+                referred = None
+  
         print(incomplete_registrations)
         context['incomplete_registrations'] = incomplete_registrations
         
